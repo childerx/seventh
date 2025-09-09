@@ -279,7 +279,7 @@ const HomePage: React.FC = () => {
       <main className="relative z-10 bg-white/95 ">
         {/* Hero Section with Slider */}
         <section ref={ref} className="relative ">
-          <div className="max-w-7xl flex justify-between items-center mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="max-w-7xl flex flex-col md:flex-row justify-between items-center mx-auto px-4 sm:px-6 lg:px-8 py-12">
             {/* Thread-like Background Pattern */}
             <div className="absolute inset-0 overflow-hidden">
               <svg
@@ -402,7 +402,7 @@ const HomePage: React.FC = () => {
             </div>
             <div className="relative z-10 flex-1">
               <motion.h1
-                className="text-5xl lg:text-7xl font-bold text-right"
+                className="text-5xl lg:text-7xl font-bold  md:text-right"
                 variants={itemVariants}
               >
                 <span className="block bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
@@ -416,7 +416,7 @@ const HomePage: React.FC = () => {
                 </span>
               </motion.h1>
 
-              <motion.p className="text-base leading-relaxed text-right text-gray-700 mt-6">
+              <motion.p className="text-base leading-relaxed md:text-right text-gray-700 mt-6">
                 The overall supply chain is a network of businesses as well{" "}
                 <br />
                 as most organizations working in a sequence of processes <br />

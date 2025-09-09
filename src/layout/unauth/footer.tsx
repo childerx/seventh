@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '@/assets/images/logoT.png'
 import { Facebook, Instagram, Twitter, Github, Youtube } from 'lucide-react';
 
 interface FooterLink {
@@ -44,23 +45,23 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-white border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
+        <div className="flex flex-col md:flex-row justify-between ">
           {/* Brand Section */}
           <div className="lg:col-span-1 space-y-6">
             {/* Logo */}
-            <div className="flex items-center space-x-2">
-              <div className="relative w-8 h-8">
+            <div className="flex justify-center md:justify-start items-center space-x-2">
+              <div className="relative w-20 h-20">
                 {/* Recreating the logo using CSS */}
-                <img src="" alt="" className="" />
+                <img src={logo} alt="" className="" />
               </div>
             </div>
             
-            <p className="text-gray-600 text-sm leading-relaxed max-w-xs">
+            <p className="text-gray-600 text-base text-center md:text-left leading-relaxed md:max-w-xs">
               Connecting continents through fast, reliable, and convenient delivery solutions.
             </p>
             
             {/* Social Links */}
-            <div className="flex space-x-4">
+            <div className="flex justify-center md:justify-start my-5 md:my-0 space-x-4">
               {socialLinks.map((social) => {
                 const IconComponent = social.icon;
                 return (
@@ -78,11 +79,11 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Footer Links */}
-          <div className="lg:col-span-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="lg:col-span-4 ">
+            <div className="flex justify-center md:justify-start gap-14">
               {footerSections.map((section) => (
-                <div key={section.title} className="space-y-4">
-                  <h3 className="text-sm font-semibold text-black tracking-wider uppercase">
+                <div key={section.title} className="space-y-4 text-center">
+                  <h3 className="text-base font-semibold text-black tracking-wider uppercase">
                     {section.title}
                   </h3>
                   <ul className="space-y-3">

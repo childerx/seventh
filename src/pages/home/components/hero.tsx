@@ -690,7 +690,7 @@ const SeventhAirHero: React.FC<SeventhAirHeroProps> = ({ planeImageUrl }) => {
                 variants={itemVariants}
               >
                 <motion.button
-                  className="group px-8 py-4 relative group  overflow-hidden text-white rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transition-all"
+                  className="w-full md:w-[unset] flex justify-center group px-8 py-4 relative group  overflow-hidden text-white rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transition-all"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -714,7 +714,7 @@ const SeventhAirHero: React.FC<SeventhAirHeroProps> = ({ planeImageUrl }) => {
                 </motion.button>
 
                 <motion.button
-                  className="px-8 py-4 bg-white/80 backdrop-blur-lg text-gray-900 rounded-full font-semibold text-lg border-2 border-gray-200 hover:border-blue-400 transition-all"
+                  className="w-full md:w-[unset] px-8 py-4 bg-white/80 backdrop-blur-lg text-gray-900 rounded-full font-semibold text-lg border-2 border-gray-200 hover:border-blue-400 transition-all"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >

@@ -193,7 +193,7 @@ const SeventhAirNavbar: React.FC<NavbarProps> = ({ className = '' }) => {
                   >
                     <motion.a 
                       href={link.href}
-                      className="text-white/90 hover:text-white font-medium text-sm tracking-wide transition-all duration-300 flex items-center space-x-1 py-2 drop-shadow-md"
+                      className="text-gray-700 hover:text-gray-500 font-medium text-base tracking-wide transition-all duration-300 flex items-center space-x-1 py-2 drop-shadow-md"
                       whileHover={{
                         scale: 1.05,
                         transition: {

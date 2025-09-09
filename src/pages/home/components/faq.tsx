@@ -95,7 +95,21 @@ function Faq() {
   };
   return (
     <section ref={ref} className="relative ">
-      <div className="max-w-7xl flex justify-between gap-6 items-center mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <motion.div
+        initial={{ opacity: 0, y: -30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6 }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5"
+      >
+        <h2 className="text-4xl lg:text-6xl font-bold mb-4">
+          <span className="text-gray-800">The Most Frequently </span>
+          <br />
+          <span className="bg-gradient-to-r from-blue-600 to-red-600 bg-clip-text text-transparent">
+            Questions Of Cargo
+          </span>
+        </h2>
+      </motion.div>
+      <div className="max-w-7xl flex flex-col md:flex-row justify-between gap-6 items-center mx-auto px-4 sm:px-6 lg:px-8 pb-6 md:pb-0">
         {/* Thread-like Background Pattern */}
         <div className="absolute inset-0 overflow-hidden">
           <svg
