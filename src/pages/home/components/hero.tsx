@@ -625,9 +625,12 @@ const SeventhAirHero: React.FC<SeventhAirHeroProps> = ({ planeImageUrl }) => {
             animate={isLoaded ? "visible" : "hidden"}
           >
             {/* Left Content */}
-            <div className="space-y-8">
+            <div className="space-y-5 md:space-y-8">
               {/* Badge */}
-              <motion.div className="inline-block" variants={itemVariants}>
+              <motion.div
+                className="inline-block pt-12 md:pt-0"
+                variants={itemVariants}
+              >
                 <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-lg px-4 py-2 rounded-full border border-blue-200/50">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                   <div className="flex items-center gap-1.5 text-sm font-semibold text-gray-700">
