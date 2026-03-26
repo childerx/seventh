@@ -1,0 +1,32 @@
+export const emissions = [
+  {
+    sensorId: "SN-001",
+    industry: "Tema Cement",
+    location: "Tema",
+    timestamp: "2026-03-15T10:05:00Z",
+    co2: 430,
+    nox: 70,
+    so2: 15,
+    pm25: 32,
+  },
+  {
+    sensorId: "SN-002",
+    industry: "Accra Steel",
+    location: "Accra",
+    timestamp: "2026-03-15T10:05:00Z",
+    co2: 520,
+    nox: 92,
+    so2: 24,
+    pm25: 41,
+  },
+  {
+    sensorId: "SN-003",
+    industry: "Takoradi Refinery",
+    location: "Takoradi",
+    timestamp: "2026-03-15T10:05:00Z",
+    co2: 410,
+    nox: 65,
+    so2: 14,
+    pm25: 28,
+  },
+];
