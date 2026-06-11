@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Package, Shield, Clock, ChevronDown } from "lucide-react";
@@ -6,15 +6,9 @@ import planeImg from "@/assets/images/cargo.png";
 import { LuArrowRightLeft } from "react-icons/lu";
 import { useTheme } from "@/context/theme-context";
 
-interface SeventhAirHeroProps {
-  planeImageUrl?: string;
-}
-
-const SeventhAirHero: React.FC<SeventhAirHeroProps> = ({ planeImageUrl }) => {
+const SeventhAirHero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mountRef = useRef<HTMLDivElement>(null);
-  const planeRef = useRef<THREE.Mesh | null>(null);
-  const mousePositionRef = useRef({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
   const { isDark } = useTheme();
 
@@ -23,20 +17,6 @@ const SeventhAirHero: React.FC<SeventhAirHeroProps> = ({ planeImageUrl }) => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   const scale = useTransform(scrollY, [0, 300], [1, 0.8]);
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      mousePositionRef.current = {
-        x: (e.clientX - rect.left) / rect.width - 0.5,
-        y: (e.clientY - rect.top) / rect.height - 0.5,
-      };
-    }
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [handleMouseMove]);
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -79,43 +59,7 @@ const SeventhAirHero: React.FC<SeventhAirHeroProps> = ({ planeImageUrl }) => {
     pointLight.position.set(-5, 5, 5);
     scene.add(pointLight);
 
-    // Load plane texture
-    const textureLoader = new THREE.TextureLoader();
-    const imageFile = planeImageUrl || planeImg;
-
-    textureLoader.load(
-      imageFile,
-      (texture) => {
-        const aspectRatio = texture.image.width / texture.image.height;
-        const geometry = new THREE.PlaneGeometry(8 * aspectRatio, 8, 32, 32);
-
-        const vertices = geometry.attributes.position.array;
-        for (let i = 0; i < vertices.length; i += 3) {
-          const x = vertices[i];
-          const y = vertices[i + 1];
-          const distance = Math.sqrt(x * x + y * y);
-          vertices[i + 2] = Math.exp(-distance * 0.1) * 0.5;
-        }
-        geometry.attributes.position.needsUpdate = true;
-        geometry.computeVertexNormals();
-
-        const material = new THREE.MeshPhongMaterial({
-          map: texture,
-          transparent: true,
-          alphaTest: 0.5,
-          side: THREE.DoubleSide,
-          specular: 0xffffff,
-          shininess: 100,
-        });
-
-        const planeObject = new THREE.Mesh(geometry, material);
-        planeObject.castShadow = true;
-        planeRef.current = planeObject;
-        scene.add(planeObject);
-      },
-      undefined,
-      () => setIsLoaded(true) // Even on error, show content
-    );
+    setTimeout(() => setIsLoaded(true), 100);
 
     // Floating particles
     const particlesGeometry = new THREE.BufferGeometry();
@@ -144,16 +88,6 @@ const SeventhAirHero: React.FC<SeventhAirHeroProps> = ({ planeImageUrl }) => {
     const animate = () => {
       frame = requestAnimationFrame(animate);
 
-      if (planeRef.current) {
-        const t = Date.now();
-        planeRef.current.position.y = Math.sin(t * 0.001) * 0.35;
-        planeRef.current.position.x = Math.sin(t * 0.0005) * 0.6;
-        // Subtle autonomous banking on z + interactive tilt from mouse
-        planeRef.current.rotation.z = Math.sin(t * 0.0004) * 0.04;
-        planeRef.current.rotation.y = mousePositionRef.current.x * 0.5;
-        planeRef.current.rotation.x = -mousePositionRef.current.y * 0.3;
-      }
-
       particles.rotation.y += 0.0005;
       particles.rotation.x += 0.0002;
 
@@ -174,8 +108,6 @@ const SeventhAirHero: React.FC<SeventhAirHeroProps> = ({ planeImageUrl }) => {
     };
     window.addEventListener("resize", handleResize);
 
-    setTimeout(() => setIsLoaded(true), 500);
-
     return () => {
       window.removeEventListener("resize", handleResize);
       if (frame) cancelAnimationFrame(frame);
@@ -186,7 +118,7 @@ const SeventhAirHero: React.FC<SeventhAirHeroProps> = ({ planeImageUrl }) => {
       particlesGeometry.dispose();
       particlesMaterial.dispose();
     };
-  }, [planeImageUrl, isDark]);
+  }, [isDark]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -337,6 +269,12 @@ const SeventhAirHero: React.FC<SeventhAirHeroProps> = ({ planeImageUrl }) => {
                 </motion.button>
               </motion.div>
             </div>
+
+            <motion.div className="hidden lg:flex justify-center" variants={itemVariants}>
+              <div className="relative">
+                <img src={planeImg} alt="Cargo Plane" className="w-full max-w-lg" />
+              </div>
+            </motion.div>
 
           </motion.div>
         </div>

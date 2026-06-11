@@ -18,7 +18,6 @@ import {
   Plane,
 } from "lucide-react";
 import SeventhAirHero from "./components/hero";
-import planeImg from "@/assets/images/cargo.png";
 import globe from "@/assets/images/globe.png";
 import planeAir from "@/assets/images/plane-air.jpg";
 import planeCargo1 from "@/assets/images/plane-cargo1.jpg";
@@ -1082,7 +1081,7 @@ const ContactSection: React.FC = () => {
                   >
                     {contact.title}
                   </h3>
-                  {contact.items.map((item, i) => (
+                  {contact.items.map((item, i) =>
                     contact.href ? (
                       <a
                         key={i}
@@ -1100,8 +1099,8 @@ const ContactSection: React.FC = () => {
                       >
                         {item}
                       </p>
-                    )
-                  ))}
+                    ),
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -1219,7 +1218,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
-      <SeventhAirHero planeImageUrl={planeImg} />
+      <SeventhAirHero />
       <main
         className="relative z-10"
         style={{ background: "var(--bg-primary)" }}
