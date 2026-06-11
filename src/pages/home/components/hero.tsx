@@ -145,8 +145,11 @@ const SeventhAirHero: React.FC<SeventhAirHeroProps> = ({ planeImageUrl }) => {
       frame = requestAnimationFrame(animate);
 
       if (planeRef.current) {
-        planeRef.current.position.y = Math.sin(Date.now() * 0.001) * 0.3;
-        planeRef.current.position.x = Math.sin(Date.now() * 0.0005) * 0.5;
+        const t = Date.now();
+        planeRef.current.position.y = Math.sin(t * 0.001) * 0.35;
+        planeRef.current.position.x = Math.sin(t * 0.0005) * 0.6;
+        // Subtle autonomous banking on z + interactive tilt from mouse
+        planeRef.current.rotation.z = Math.sin(t * 0.0004) * 0.04;
         planeRef.current.rotation.y = mousePositionRef.current.x * 0.5;
         planeRef.current.rotation.x = -mousePositionRef.current.y * 0.3;
       }
@@ -335,11 +338,6 @@ const SeventhAirHero: React.FC<SeventhAirHeroProps> = ({ planeImageUrl }) => {
               </motion.div>
             </div>
 
-            <motion.div className="hidden lg:flex justify-center" variants={itemVariants}>
-              <div className="relative">
-                <img src={planeImg} alt="Cargo Plane" className="w-full max-w-lg" />
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </motion.div>
