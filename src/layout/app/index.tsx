@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ScrollToTop from "@/components/core/scroll-to-top";
 import {
   Dialog,
   DialogBackdrop,
@@ -411,6 +412,7 @@ export default function AppLayout() {
           </div>
         </div>
       </div>
+      <ScrollToTop />
     </>
   );
 }

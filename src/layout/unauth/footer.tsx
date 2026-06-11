@@ -1,119 +1,205 @@
-import React from 'react';
-import logo from '@/assets/images/logoT.png'
-import { Facebook, Instagram, Twitter, Github, Youtube } from 'lucide-react';
-
-interface FooterLink {
-  label: string;
-  href: string;
-}
-
-interface FooterSection {
-  title: string;
-  links: FooterLink[];
-}
+import React from "react";
+import logo from "@/assets/images/logoT.png";
+import {
+  Facebook,
+  Instagram,
+  Twitter,
+  Mail,
+  Phone,
+  MapPin,
+} from "lucide-react";
+import { useTheme } from "@/context/theme-context";
 
 const Footer: React.FC = () => {
-  const footerSections: FooterSection[] = [
-    
-    {
-      title: 'Company',
-      links: [
-        { label: 'About', href: '#' },
-        { label: 'Blog', href: '#' },
-        { label: 'Jobs', href: '#' },
-        { label: 'Press', href: '#' },
-      ],
-    },
-    {
-      title: 'Legal',
-      links: [
-        { label: 'Terms of service', href: '#' },
-        { label: 'Privacy policy', href: '#' },
-        { label: 'License', href: '#' },
-      ],
-    },
-  ];
-
-  const socialLinks = [
-    { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Github, href: '#', label: 'GitHub' },
-    { icon: Youtube, href: '#', label: 'YouTube' },
-  ];
+  const { isDark } = useTheme();
 
   return (
-    <footer className="bg-white border-t border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="flex flex-col md:flex-row justify-between ">
-          {/* Brand Section */}
-          <div className="lg:col-span-1 space-y-6">
-            {/* Logo */}
-            <div className="flex justify-center md:justify-start items-center space-x-2">
-              <div className="relative w-20 h-20">
-                {/* Recreating the logo using CSS */}
-                <img src={logo} alt="" className="" />
-              </div>
-            </div>
-            
-            <p className="text-gray-600 text-base text-center md:text-left leading-relaxed md:max-w-xs">
-              Connecting continents through fast, reliable, and convenient delivery solutions.
-            </p>
-            
-            {/* Social Links */}
-            <div className="flex justify-center md:justify-start my-5 md:my-0 space-x-4">
-              {socialLinks.map((social) => {
-                const IconComponent = social.icon;
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    className="text-gray-400 hover:text-blue-600 transition-colors duration-200"
-                    aria-label={social.label}
-                  >
-                    <IconComponent className="h-5 w-5" />
-                  </a>
-                );
-              })}
-            </div>
-          </div>
+    <footer
+      className="relative overflow-hidden"
+      style={{
+        background: isDark ? "#0f172a" : "#ffffff",
+        borderTop: `1px solid ${isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.06)"}`,
+      }}
+    >
+      {/* Watermark */}
+      <div
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden"
+        aria-hidden="true"
+      >
+        <span
+          className="text-[10vw] lg:text-[8vw] font-black whitespace-nowrap leading-none tracking-tighter opacity-[0.03]"
+          style={{
+            fontFamily: "var(--font-heading)",
+            color: isDark ? "#ffffff" : "#000000",
+          }}
+        >
+          SEVENTH AIR LIMITED
+        </span>
+      </div>
 
-          {/* Footer Links */}
-          <div className="lg:col-span-4 ">
-            <div className="flex justify-center md:justify-start gap-14">
-              {footerSections.map((section) => (
-                <div key={section.title} className="space-y-4 text-center">
-                  <h3 className="text-base font-semibold text-black tracking-wider uppercase">
-                    {section.title}
-                  </h3>
-                  <ul className="space-y-3">
-                    {section.links.map((link) => (
-                      <li key={link.label}>
-                        <a
-                          href={link.href}
-                          className="text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200"
-                        >
-                          {link.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
+          {/* Brand */}
+          <div className="lg:col-span-1 space-y-4">
+            <img
+              src={logo}
+              alt="Seventh Air Logo"
+              className="w-16 h-16 object-contain"
+            />
+            <p
+              className="text-sm leading-relaxed"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Connecting continents through fast, reliable, and convenient
+              delivery solutions between UK and Ghana.
+            </p>
+            <div className="flex space-x-3">
+              {[Facebook, Instagram, Twitter].map((Icon, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  className="w-9 h-9 rounded-lg flex items-center justify-center transition-all hover:scale-110"
+                  style={{
+                    background: isDark
+                      ? "rgba(255, 255, 255, 0.08)"
+                      : "rgba(0, 0, 0, 0.04)",
+                    color: "var(--text-secondary)",
+                  }}
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
               ))}
             </div>
           </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3
+              className="font-semibold text-sm tracking-wide uppercase mb-4"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Quick Links
+            </h3>
+            <ul className="space-y-3">
+              {[
+                "About Us",
+                "Services",
+                "Track Package",
+                "Get Quote",
+                "Contact",
+              ].map((link) => (
+                <li key={link}>
+                  <a
+                    href={link === "Contact" ? "#contact" : "#"}
+                    className="text-sm hover:text-blue-600 transition-colors"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Services */}
+          <div>
+            <h3
+              className="font-semibold text-sm tracking-wide uppercase mb-4"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Services
+            </h3>
+            <ul className="space-y-3">
+              {[
+                "Air Freight",
+                "Ground Shipping",
+                "Express Delivery",
+                "Customs Clearance",
+                "Warehousing",
+              ].map((link) => (
+                <li key={link}>
+                  <a
+                    href="#"
+                    className="text-sm hover:text-blue-600 transition-colors"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h3
+              className="font-semibold text-sm tracking-wide uppercase mb-4"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Contact
+            </h3>
+            <ul className="space-y-3">
+              <li className="flex items-start space-x-3">
+                <Phone
+                  className="w-4 h-4 mt-0.5 flex-shrink-0"
+                  style={{ color: "var(--primary-blue-light)" }}
+                />
+                <span
+                  className="text-sm"
+                  style={{ color: "var(--text-secondary)" }}
+                >
+                  +233 202812225
+                </span>
+              </li>
+              <li className="flex items-start space-x-3">
+                <Mail
+                  className="w-4 h-4 mt-0.5 flex-shrink-0"
+                  style={{ color: "var(--primary-red-light)" }}
+                />
+                <a
+                  href={`mailto:opoku.ach@gmail.com?subject=${encodeURIComponent("Seventh Air — New Inquiry")}&body=${encodeURIComponent("Dear Seventh Air Team,\n\nI am reaching out via your website to inquire about your cargo and logistics services between the UK and Ghana.\n\nI would like to know more about:\n- \n\nLooking forward to hearing from you.\n\nBest regards,\n")}`}
+                  className="text-sm hover:text-blue-500 transition-colors"
+                  style={{ color: "var(--text-secondary)" }}
+                >
+                  info@seventhair.com
+                </a>
+              </li>
+              <li className="flex items-start space-x-3">
+                <MapPin
+                  className="w-4 h-4 mt-0.5 flex-shrink-0"
+                  style={{ color: "#22c55e" }}
+                />
+                <span
+                  className="text-sm"
+                  style={{ color: "var(--text-secondary)" }}
+                >
+                  UK ↔ Ghana
+                </span>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {/* Bottom Section */}
-        <div className="mt-12 pt-8 border-t border-gray-100">
-          <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-            <p className="text-sm text-gray-500">
-              © {new Date().getFullYear()} Seventh Air Limited. All rights reserved.
-            </p>
-            <div className="flex items-center space-x-1">
-              <span className="text-sm text-gray-500">Powered by</span>
-              <span className="text-sm font-medium text-blue-600">Seventh Air</span>
-            </div>
+        <div
+          className="pt-8 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0"
+          style={{
+            borderTop: `1px solid ${isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.06)"}`,
+          }}
+        >
+          <p className="text-sm" style={{ color: "var(--text-tertiary)" }}>
+            © {new Date().getFullYear()} Seventh Air Limited. All rights
+            reserved.
+          </p>
+          <div className="flex items-center space-x-1">
+            <span className="text-sm" style={{ color: "var(--text-tertiary)" }}>
+              Powered by
+            </span>
+            <span
+              className="text-sm font-semibold"
+              style={{ color: "var(--primary-blue-light)" }}
+            >
+              Seventh Air
+            </span>
           </div>
         </div>
       </div>

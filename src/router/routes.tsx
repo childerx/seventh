@@ -1,10 +1,11 @@
 import { Outlet, type Route, type SearchPredicate } from "react-location";
 import type { LocationGenerics } from "./location";
 import HomePage from "@/pages/home";
-import { ABOUT, CONTACT, SERVICES } from "@/constants/page-path";
+import { ABOUT, CONTACT, SERVICES, COLLECTION_POINTS } from "@/constants/page-path";
 import AboutPage from "@/pages/about";
 import ContactPage from "@/pages/contact";
 import ServicePage from "@/pages/services";
+import CollectionPointsPage from "@/pages/collection-points";
 
 
 export type RouteProps = Omit<Route, "children"> & {
@@ -39,6 +40,13 @@ const routes: RouteProps[] = [
   {
     path: SERVICES,
     element: <ServicePage />,
+    meta: {
+      layout: "Unauth",
+    },
+  },
+  {
+    path: COLLECTION_POINTS,
+    element: <CollectionPointsPage />,
     meta: {
       layout: "Unauth",
     },

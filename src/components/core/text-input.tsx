@@ -1,110 +1,179 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC } from 'react';
-import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
-import _ from 'lodash';
-import clsx from 'clsx';
-import classNames from '@/utils/classnames';
+// src/components/TextInput.tsx
+import _ from "lodash";
+import type { ChangeEventHandler, CSSProperties, FC, FocusEventHandler, InputHTMLAttributes } from "react";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Eye, EyeOff } from "lucide-react";
+import { cn } from "@/utils/cs";
 
-interface TextInputProps {
+const labelVariants = {
+  floating: {
+    top: "-0.75rem",
+    left: "0.75rem",
+    fontSize: "0.75rem",
+    paddingLeft: "0.25rem",
+    paddingRight: "0.25rem",
+    backgroundColor: "var(--input-label-bg, #ffffff)",
+  },
+  resting: {
+    top: "0.75rem",
+    left: "1rem",
+    fontSize: "1rem",
+    paddingLeft: "0rem",
+    paddingRight: "0rem",
+    backgroundColor: "#ffffff00",
+  },
+};
+
+const errorVariants = {
+  hidden: { opacity: 0, height: 0, y: -10, marginTop: "0rem" },
+  visible: { opacity: 1, height: "auto", y: 0, marginTop: "0.5rem" },
+};
+
+interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
   label?: string;
-  placeholder?: string;
-  disabled?: boolean;
-  required?: boolean;
-  type?: 'number' | 'text' | 'email' | 'date' | 'password';
-  values: any;
-  handleChange: any;
-  handleBlur: any;
-  errors?: any;
-  touched?: any;
-  step?: number;
-  min?: number | string;
-  max?: number | string;
-  labelHidden?: boolean;
-  maxLength?: number;
-  minLength?: number;
-  postText?: string;
-  preText?: string;
-  borderless?: boolean;
-  description?: string;
+  values: unknown;
+  handleChange: ChangeEventHandler<HTMLInputElement>;
+  handleBlur: FocusEventHandler<HTMLInputElement>;
+  errors?: unknown;
+  touched?: unknown;
 }
 
-const TextInput: FC<TextInputProps> = ({
+export const TextInput: FC<TextInputProps> = ({
   id,
   type,
-  step,
+  label,
   values,
   handleChange,
   handleBlur,
-  placeholder,
-  label,
   errors,
   touched,
-  required,
-  maxLength,
-  minLength,
-  disabled,
-  min,
-  max,
-  labelHidden,
-  borderless,
-  postText,
-  description,
+  className,
+  placeholder,
+  onFocus,
+  ...props
 }) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isAutofilled, setIsAutofilled] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const value = _.get(values, id);
+  const hasError = !!(_.get(errors, id) && _.get(touched, id));
+  const isFloating = isFocused || !!value || isAutofilled;
+
+  useEffect(() => {
+    const input = inputRef.current;
+    if (input && input.matches(":-webkit-autofill")) {
+      setIsAutofilled(true);
+    }
+  }, []);
+
+  const handleInputFocus: FocusEventHandler<HTMLInputElement> = (e) => {
+    setIsFocused(true);
+    if (onFocus) onFocus(e);
+  };
+
+  const handleInputBlurWrapper: FocusEventHandler<HTMLInputElement> = (e) => {
+    setIsFocused(false);
+    setIsAutofilled(e.target.matches(":-webkit-autofill"));
+    handleBlur(e);
+  };
+
+  const handleInputChangeWrapper: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setIsAutofilled(e.target.matches(":-webkit-autofill"));
+    handleChange(e);
+  };
+
+  const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev);
+  const currentInputType = type === "password" ? (isPasswordVisible ? "text" : "password") : type;
+
+  const labelColor = hasError ? "#EF4444" : isFocused ? "#3B82F6" : "var(--text-tertiary)";
+  const labelBg = isFloating
+    ? document.documentElement.classList.contains("dark")
+      ? "#0f172a"
+      : "#ffffff"
+    : "#00000000";
+
   return (
-    <div>
-      {!labelHidden && (
-        <label htmlFor={id} className='block text-xs font-light text-gray-700'>
-          {label} {required ? <span className='text-red-500'>*</span> : ''}
-        </label>
-      )}
-      {description && <p className='block text-xs text-gray-500 mt-1'>{description}</p>}
-      <div className={classNames(labelHidden ? '' : 'mt-1', 'relative')}>
-        <input
-          type={type ?? 'text'}
-          name={id}
-          id={id}
-          value={_.get(values, id)}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          disabled={disabled}
-          placeholder={placeholder || label || ''}
-          step={step}
-          min={min}
-          max={max}
-          maxLength={maxLength}
-          minLength={minLength}
-          style={{
-            paddingRight: (postText?.length || 0) * 10,
-          }}
-          className={clsx(
-            'focus:ring-primary-500 focus:border-primary-500 border-gray-300 shadow-sm block w-full sm:text-sm rounded-md placeholder:font-light placeholder:text-xs h-8',
-            {
-              'focus:ring-red-500 focus:border-red-500 border-red-600':
-                _.get(errors, id) && _.get(touched, id),
-              'cursor-not-allowed bg-gray-100': disabled,
-              'border-0 border-gray-300': borderless,
-            }
-          )}
-        />
-        {_.get(errors, id) && _.get(touched, id) ? (
-          <div className='absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none'>
-            <ExclamationCircleIcon className='h-5 w-5 text-red-500' aria-hidden='true' />
-          </div>
-        ) : null}
-        {postText && (
-          <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3'>
-            <span className='text-gray-500 sm:text-sm' id='price-currency'>
-              {postText}
-            </span>
-          </div>
+    <div className={cn("relative w-full", className)}>
+      <div
+        className={cn(
+          "relative w-full rounded-xl border transition-all duration-200",
+          hasError ? "border-red-500" : isFocused ? "border-blue-500 shadow-[0_0_0_3px_rgba(59,130,246,0.1)]" : "hover:border-blue-300/50",
+          "flex items-center"
+        )}
+        style={{ borderColor: hasError ? undefined : isFocused ? undefined : 'var(--border-primary)' }}
+      >
+        {label && (
+          <motion.label
+            htmlFor={id}
+            className="absolute z-10 pointer-events-none"
+            variants={labelVariants}
+            initial={isFloating ? "floating" : "resting"}
+            animate={isFloating ? "floating" : "resting"}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            style={{ color: labelColor, "--input-label-bg": labelBg } as CSSProperties}
+          >
+            {label}
+          </motion.label>
+        )}
+
+        <div className="flex-1 w-full py-3 px-4">
+          <input
+            ref={inputRef}
+            id={id}
+            name={id}
+            autoComplete="new-password"
+            type={currentInputType}
+            value={value || ""}
+            onChange={handleInputChangeWrapper}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlurWrapper}
+            placeholder={isFloating ? placeholder : ""}
+            className="w-full border-none bg-transparent p-0 text-base outline-none ring-0 focus:ring-0"
+            style={{ color: 'var(--text-primary)' }}
+            {...props}
+          />
+        </div>
+
+        {type === "password" && (
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="px-4"
+            style={{ color: 'var(--text-tertiary)' }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={isPasswordVisible ? "eye" : "eye-off"}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.1 }}
+              >
+                {isPasswordVisible ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </motion.div>
+            </AnimatePresence>
+          </button>
         )}
       </div>
-      {_.get(errors, id) && _.get(touched, id) ? (
-        <p className='mt-2 text-sm text-red-600' id={`${id}-error`}>
-          {_.get(errors, id)}
-        </p>
-      ) : null}
+
+      <AnimatePresence>
+        {hasError && (
+          <motion.p
+            className="text-sm text-red-500"
+            variants={errorVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            transition={{ type: "spring", bounce: 0.3, duration: 0.4 }}
+          >
+            {_.get(errors, id)}
+          </motion.p>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
