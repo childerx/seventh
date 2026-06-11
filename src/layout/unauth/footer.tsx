@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "@/assets/images/logoT.png";
+import logoWhite from "@/assets/images/logoTwhite.png";
 import {
   Facebook,
   Instagram,
@@ -42,7 +43,7 @@ const Footer: React.FC = () => {
           {/* Brand */}
           <div className="lg:col-span-1 space-y-4">
             <img
-              src={logo}
+              src={isDark ? logoWhite : logo}
               alt="Seventh Air Logo"
               className="w-16 h-16 object-contain"
             />

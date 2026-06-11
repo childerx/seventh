@@ -1,4 +1,5 @@
 import logo from "@/assets/images/logoT.png";
+import logoWhite from "@/assets/images/logoTwhite.png";
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-location';
 import { Menu, X, Phone, Package, Plane, Truck, Globe, ChevronDown } from 'lucide-react';
@@ -90,7 +91,7 @@ const SeventhAirNavbar: React.FC<NavbarProps> = ({ className = '' }) => {
           }}
         >
           <div className="px-5 py-2.5 flex items-center justify-between">
-            <img src={logo} alt="Seventh Air Logo" className="w-12 h-11 object-contain" />
+            <img src={isDark ? logoWhite : logo} alt="Seventh Air Logo" className="w-12 h-11 object-contain" />
             
             <div className="hidden lg:flex items-center space-x-6">
               {navLinks.map((link, index) => (
