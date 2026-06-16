@@ -1,4 +1,5 @@
 import "./App.css";
+import { Toaster } from "sonner";
 import NotificationProvider from "./notifications";
 import RoutesProvider from "./router";
 import LayoutProvider from "./layout";
@@ -12,6 +13,7 @@ function App() {
           <LayoutProvider />
         </RoutesProvider>
       </NotificationProvider>
+      <Toaster richColors position="top-right" closeButton />
     </ThemeProvider>
   );
 }

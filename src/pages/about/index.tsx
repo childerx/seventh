@@ -208,7 +208,7 @@ const HeroSection: React.FC = () => {
               }}
             >
               <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span>UK ↔ Ghana Courier Service</span>
+              <span>Global Courier Service</span>
             </div>
           </motion.div>
 
@@ -240,8 +240,7 @@ const HeroSection: React.FC = () => {
             className="text-lg sm:text-xl lg:text-2xl max-w-2xl mx-auto mb-12 leading-relaxed"
             style={{ color: "rgba(203,213,225,0.85)" }}
           >
-            Bridging continents, delivering trust — your premier air freight
-            partner between the United Kingdom and Ghana.
+            Bridging continents, delivering trust — your premier international air freight partner for global shipping.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -424,11 +423,7 @@ const OurStorySection: React.FC = () => {
               className="text-base sm:text-lg leading-relaxed"
               style={{ color: "var(--text-secondary)" }}
             >
-              Founded three years ago by a team passionate about connecting the
-              diaspora with home, Seventh Air Limited was born from a simple but
-              powerful idea: families and businesses deserved a reliable, fast,
-              and transparent way to send parcels between the United Kingdom and
-              Ghana.
+              Founded three years ago by a team passionate about connecting people across the world, Seventh Air Limited was born from a simple but powerful idea: families and businesses deserved a reliable, fast, and transparent way to send parcels internationally.
             </motion.p>
 
             <motion.p
@@ -453,10 +448,7 @@ const OurStorySection: React.FC = () => {
               className="text-base sm:text-lg leading-relaxed"
               style={{ color: "var(--text-secondary)" }}
             >
-              We specialise in air freight for international parcels — delivered
-              within 3 working days — and same-day domestic delivery within
-              Ghana. Our real-time tracking system keeps you informed at every
-              step, because we believe transparency builds trust.
+              We specialise in international air freight — delivering parcels worldwide — alongside domestic delivery services. Our real-time tracking system keeps you informed at every step, because we believe transparency builds trust.
             </motion.p>
 
             {/* Checkpoints */}
@@ -468,10 +460,10 @@ const OurStorySection: React.FC = () => {
               className="space-y-3 pt-2"
             >
               {[
-                "Air freight UK ↔ Ghana in 3 working days",
-                "Same-day domestic delivery across Ghana",
+                "International air freight in as little as 3 working days",
+                "Express domestic delivery options available",
                 "User-friendly real-time tracking portal",
-                "Dedicated support in both countries",
+                "Dedicated global support team",
               ].map((point, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div
@@ -562,7 +554,7 @@ const OurStorySection: React.FC = () => {
                 className="text-xs font-medium"
                 style={{ color: "var(--text-secondary)" }}
               >
-                UK to Ghana delivery
+                International delivery
               </div>
             </motion.div>
 
@@ -698,7 +690,7 @@ const StatsSection: React.FC = () => {
       suffix: "+",
       prefix: "",
       label: "Years Established",
-      sublabel: "Serving UK-Ghana corridor",
+      sublabel: "Serving customers worldwide",
       color: "var(--primary-blue-light)",
     },
     {
@@ -706,15 +698,15 @@ const StatsSection: React.FC = () => {
       suffix: " Days",
       prefix: "",
       label: "International Delivery",
-      sublabel: "UK to Ghana via air freight",
+      sublabel: "International air freight",
       color: "var(--primary-red-light)",
     },
     {
       value: 2,
       suffix: "",
       prefix: "",
-      label: "Countries",
-      sublabel: "United Kingdom & Ghana",
+      label: "Continents",
+      sublabel: "Global reach & coverage",
       color: "var(--primary-blue-light)",
     },
     {
@@ -797,8 +789,7 @@ const StatsSection: React.FC = () => {
             className="text-base sm:text-lg max-w-xl mx-auto"
             style={{ color: "var(--text-secondary)" }}
           >
-            Three years of relentless dedication to connecting the UK and Ghana,
-            one parcel at a time.
+            Three years of relentless dedication to connecting the world, one parcel at a time.
           </p>
         </motion.div>
 
@@ -856,7 +847,7 @@ const ValuesSection: React.FC = () => {
       icon: <Users className="w-7 h-7" />,
       title: "Customer First",
       description:
-        "Our customers are at the heart of everything we do. From our intuitive tracking portal to our bilingual support teams in both the UK and Ghana, we design every touchpoint to make your shipping experience as effortless as possible.",
+        "Our customers are at the heart of everything we do. From our intuitive tracking portal to our dedicated support teams worldwide, we design every touchpoint to make your shipping experience as effortless as possible.",
       gradientFrom: "#1e40af",
       gradientTo: "#dc2626",
     },
@@ -1285,10 +1276,7 @@ const GlobeSection: React.FC = () => {
               className="text-base sm:text-lg leading-relaxed"
               style={{ color: "var(--text-secondary)" }}
             >
-              Our dedicated air freight corridor connects London in the United
-              Kingdom with our base in Kumasi, Ghana. Every shipment travels
-              directly along this route — no unnecessary layovers, no hidden
-              handoffs.
+              Our dedicated air freight network connects major international hubs worldwide. Every shipment travels along the most direct route — no unnecessary layovers, no hidden handoffs.
             </motion.p>
 
             <motion.div
@@ -1445,7 +1433,7 @@ const HowItWorksSection: React.FC = () => {
       icon: <MapPin className="w-7 h-7" />,
       title: "Drop at Collection Point",
       description:
-        "Bring your parcel to your nearest collection point in the UK or Ghana. Our staff will handle the rest.",
+        "Bring your parcel to your nearest collection point worldwide. Our staff will handle the rest.",
       colorFrom: "#dc2626",
       colorTo: "#ef4444",
     },
@@ -1962,8 +1950,7 @@ const CtaSection: React.FC = () => {
           </h2>
 
           <p className="text-lg sm:text-xl text-white/85 max-w-2xl mx-auto leading-relaxed">
-            Join thousands of families and businesses who trust Seventh Air to
-            deliver their most important parcels between the UK and Ghana.
+            Join thousands of families and businesses who trust Seventh Air to deliver their most important parcels worldwide.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">

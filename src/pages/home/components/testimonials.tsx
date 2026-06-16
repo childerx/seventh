@@ -23,7 +23,7 @@ const testimonials = [
     role: "Business Owner",
     company: "London Imports Ltd",
     content:
-      "Seventh Air has transformed how we ship goods between UK and Ghana. Their 3-day delivery is incredibly reliable.",
+      "Seventh Air has transformed how we ship goods internationally. Their fast delivery is incredibly reliable.",
     rating: 5,
     image: images[0],
     category: "Business",
@@ -65,7 +65,7 @@ const testimonials = [
     id: 5,
     name: "David Osei",
     role: "Founder",
-    company: "UK-Ghana Connect",
+    company: "Global Trade Connect",
     content:
       "Great rates, fast delivery, and packages always arrive in perfect condition. Five stars all the way!",
     rating: 5,
@@ -318,7 +318,7 @@ const Testimonials: React.FC = () => {
               className="text-lg sm:text-xl max-w-2xl mx-auto"
               style={{ color: "var(--text-secondary)" }}
             >
-              Trusted by businesses and individuals across UK and Ghana
+              Trusted by businesses and individuals across the globe
             </p>
           </motion.div>
 

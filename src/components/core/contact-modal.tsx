@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { toast } from "sonner";
+import emailjs from "@emailjs/browser";
 import TextInput from "@/components/core/text-input";
 import Modal from "@/components/core/modal";
 import { useTheme } from "@/context/theme-context";
 import { useModalContext } from "@/context/modal-context";
+import {
+  EMAILJS_SERVICE_ID,
+  EMAILJS_TEMPLATE_ID,
+  EMAILJS_PUBLIC_KEY,
+} from "@/constants/emailjs";
 
 const ContactModal: React.FC = () => {
   const { isDark } = useTheme();
   const { isContactModalOpen, closeContactModal } = useModalContext();
+  const [sending, setSending] = useState(false);
 
   const contactForm = useFormik({
     initialValues: { name: "", email: "", phone: "", message: "" },
@@ -20,7 +28,30 @@ const ContactModal: React.FC = () => {
       phone: yup.string().min(7, "Invalid phone").required("Phone is required"),
       message: yup.string().min(10, "At least 10 characters").required("Message is required"),
     }),
-    onSubmit: () => {},
+    onSubmit: async (values, { resetForm }) => {
+      setSending(true);
+      try {
+        await emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          {
+            from_name: values.name,
+            from_email: values.email,
+            phone: values.phone,
+            message: values.message,
+            to_email: "zigibut24@gmail.com",
+          },
+          EMAILJS_PUBLIC_KEY,
+        );
+        toast.success("Message sent!", { description: "We'll get back to you as soon as possible." });
+        resetForm();
+        closeContactModal();
+      } catch {
+        toast.error("Failed to send message.", { description: "Please try again or contact us directly." });
+      } finally {
+        setSending(false);
+      }
+    },
   });
 
   const contactInfo: { icon: React.ElementType; title: string; items: string[]; href?: string; color: string }[] = [
@@ -34,13 +65,13 @@ const ContactModal: React.FC = () => {
       icon: Mail,
       title: "Email",
       items: ["info@seventhair.com"],
-      href: `mailto:opoku.ach@gmail.com?subject=${encodeURIComponent("Seventh Air — New Inquiry")}&body=${encodeURIComponent("Dear Seventh Air Team,\n\nI am reaching out via your website to inquire about your cargo and logistics services between the UK and Ghana.\n\nI would like to know more about:\n- \n\nLooking forward to hearing from you.\n\nBest regards,\n")}`,
+      href: `mailto:zigibut24@gmail.com?subject=${encodeURIComponent("Seventh Air — New Inquiry")}&body=${encodeURIComponent("Dear Seventh Air Team,\n\nI am reaching out via your website to inquire about your international cargo and logistics services.\n\nI would like to know more about:\n- \n\nLooking forward to hearing from you.\n\nBest regards,\n")}`,
       color: "var(--primary-red-light)",
     },
     {
       icon: MapPin,
       title: "Service Areas",
-      items: ["United Kingdom ↔ Ghana"],
+      items: ["Worldwide — International & Domestic"],
       color: "#22c55e",
     },
   ];
@@ -95,6 +126,7 @@ const ContactModal: React.FC = () => {
         <h3 className="font-bold text-lg mb-4" style={{ color: isDark ? "#e2e8f0" : "#1e293b" }}>
           Send a Message
         </h3>
+        <form onSubmit={contactForm.handleSubmit}>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <TextInput
             id="name"
@@ -144,17 +176,20 @@ const ContactModal: React.FC = () => {
             }}
           />
           <motion.button
-            className="sm:col-span-2 py-3 rounded-xl font-semibold text-base"
+            type="submit"
+            disabled={sending}
+            className="sm:col-span-2 py-3 rounded-xl font-semibold text-base disabled:opacity-60 disabled:cursor-not-allowed"
             style={{
               background: "linear-gradient(135deg, #1e40af 0%, #dc2626 100%)",
               color: "#ffffff",
             }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={sending ? {} : { scale: 1.02 }}
+            whileTap={sending ? {} : { scale: 0.98 }}
           >
-            Send Message
+            {sending ? "Sending…" : "Send Message"}
           </motion.button>
         </div>
+        </form>
       </div>
     </Modal>
   );

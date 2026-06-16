@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
               style={{ color: "var(--text-secondary)" }}
             >
               Connecting continents through fast, reliable, and convenient
-              delivery solutions between UK and Ghana.
+              delivery solutions worldwide — international & domestic shipping.
             </p>
             <div className="flex space-x-3">
               {[Facebook, Instagram, Twitter].map((Icon, i) => (
@@ -158,7 +158,7 @@ const Footer: React.FC = () => {
                   style={{ color: "var(--primary-red-light)" }}
                 />
                 <a
-                  href={`mailto:opoku.ach@gmail.com?subject=${encodeURIComponent("Seventh Air — New Inquiry")}&body=${encodeURIComponent("Dear Seventh Air Team,\n\nI am reaching out via your website to inquire about your cargo and logistics services between the UK and Ghana.\n\nI would like to know more about:\n- \n\nLooking forward to hearing from you.\n\nBest regards,\n")}`}
+                  href={`mailto:zigibut24@gmail.com?subject=${encodeURIComponent("Seventh Air — New Inquiry")}&body=${encodeURIComponent("Dear Seventh Air Team,\n\nI am reaching out via your website to inquire about your international cargo and logistics services.\n\nI would like to know more about:\n- \n\nLooking forward to hearing from you.\n\nBest regards,\n")}`}
                   className="text-sm hover:text-blue-500 transition-colors"
                   style={{ color: "var(--text-secondary)" }}
                 >
@@ -174,7 +174,7 @@ const Footer: React.FC = () => {
                   className="text-sm"
                   style={{ color: "var(--text-secondary)" }}
                 >
-                  UK ↔ Ghana
+                  Worldwide Delivery
                 </span>
               </li>
             </ul>

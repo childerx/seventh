@@ -17,6 +17,10 @@ const SeventhAirHero: React.FC = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   const scale = useTransform(scrollY, [0, 300], [1, 0.8]);
 
+  const scrollToNext = () => {
+    document.getElementById("main-content")?.scrollIntoView({ behavior: "smooth" });
+  };
+
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -169,18 +173,18 @@ const SeventhAirHero: React.FC = () => {
             <div className="space-y-6 sm:space-y-8 pt-16 sm:pt-20">
               <motion.div variants={itemVariants}>
                 <div
-                  className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border"
                   style={{
                     background: isDark ? 'rgba(30, 41, 59, 0.6)' : 'rgba(255, 255, 255, 0.7)',
                     backdropFilter: 'blur(12px)',
                     borderColor: isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.15)',
                   }}
                 >
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <div className="flex items-center gap-1.5 text-sm font-semibold" style={{ color: isDark ? '#e2e8f0' : '#374151' }}>
-                    <span>Now Operating • 🇬🇧 UK</span>
-                    <LuArrowRightLeft className="w-4 h-4" />
-                    <span>🇬🇭 Ghana</span>
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse flex-shrink-0"></div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:gap-1.5 font-semibold" style={{ color: isDark ? '#e2e8f0' : '#374151' }}>
+                    <span className="text-sm leading-tight">Now Shipping • 🌍 Worldwide</span>
+                    <LuArrowRightLeft className="w-3.5 h-3.5 hidden sm:inline-block flex-shrink-0" />
+                    <span className="text-xs sm:text-sm leading-tight" style={{ color: isDark ? '#94a3b8' : '#6b7280' }}>International & Domestic</span>
                   </div>
                 </div>
               </motion.div>
@@ -214,7 +218,7 @@ const SeventhAirHero: React.FC = () => {
               </motion.h1>
 
               <motion.p className="text-base sm:text-lg lg:text-xl leading-relaxed max-w-lg" style={{ color: 'var(--text-secondary)' }} variants={itemVariants}>
-                Fast, reliable, and convenient international shipping. From small parcels to large cargo, we deliver with precision across UK and Ghana.
+                Fast, reliable, and convenient international & domestic shipping. From small parcels to large cargo, we deliver with precision worldwide.
               </motion.p>
 
               <motion.div className="grid grid-cols-3 gap-3 sm:gap-4" variants={itemVariants}>
@@ -280,16 +284,18 @@ const SeventhAirHero: React.FC = () => {
         </div>
       </motion.div>
 
-      <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30"
+      <motion.button
+        onClick={scrollToNext}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 cursor-pointer focus:outline-none"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5, duration: 0.5 }}
+        aria-label="Scroll to next section"
       >
         <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{ color: 'var(--text-tertiary)' }}>
           <ChevronDown className="w-8 h-8" />
         </motion.div>
-      </motion.div>
+      </motion.button>
     </section>
   );
 };

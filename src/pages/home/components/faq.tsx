@@ -5,7 +5,7 @@ import { useTheme } from "@/context/theme-context";
 
 const faqs = [
   { question: "What is the minimum package weight?", answer: "We accept packages with a minimum weight of 5kg. This ensures cost-effective shipping and helps us maintain competitive pricing." },
-  { question: "How long does delivery take?", answer: "Standard delivery takes 3 working days from UK to Ghana and Ghana to UK. Express options may be available for urgent shipments." },
+  { question: "How long does delivery take?", answer: "International delivery typically takes 3–5 working days depending on destination. Domestic and regional shipments may be faster. Express options are available for urgent shipments." },
   { question: "How can I track my package?", answer: "Enter your tracking code on our website or contact us with your package ID for real-time updates on your shipment." },
   { question: "What items can I ship?", answer: "We ship personal items, electronics, documents, gifts, and household goods. Prohibited items include hazardous materials and perishables." },
   { question: "How do I get a shipping quote?", answer: "Contact us via phone or WhatsApp with your package details (weight, dimensions, destination) for an instant quote." },

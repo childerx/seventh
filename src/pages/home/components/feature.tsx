@@ -21,10 +21,10 @@ const features = [
     title: "Fast Delivery",
     icon: <Truck className="w-7 h-7" />,
     description:
-      "3 working days from UK to Ghana with our efficient freight service and streamlined logistics network.",
+      "International delivery in as little as 3 working days with our efficient freight service and streamlined global logistics network.",
     image: planeAir,
     detail:
-      "Our Fast Delivery service leverages a strategically optimized supply chain spanning two continents. With dedicated air freight routes operating six days per week between London Heathrow and Kotoka International Airport in Accra, we guarantee a transit time of just 3 working days for all shipments. Our proprietary sorting and routing technology ensures your cargo travels along the most direct path with minimal handling, reducing the risk of delays. Real-time customs pre-clearance in both the UK and Ghana further accelerates the process, making Seventh Air the premier choice for time-sensitive freight between Europe and West Africa.",
+      "Our Fast Delivery service leverages a strategically optimized supply chain spanning multiple continents. With dedicated air freight routes operating six days per week connecting major international hubs, we guarantee rapid transit times for all shipments worldwide. Our proprietary sorting and routing technology ensures your cargo travels along the most direct path with minimal handling, reducing the risk of delays. Real-time customs pre-clearance at key destinations further accelerates the process, making Seventh Air the premier choice for time-sensitive international freight.",
   },
   {
     title: "Secure Shipping",
@@ -48,10 +48,10 @@ const features = [
     title: "Global Coverage",
     icon: <Globe className="w-7 h-7" />,
     description:
-      "Seamless UK-Ghana shipping with full customs support and regulatory compliance.",
+      "Seamless international and domestic shipping with full customs support and regulatory compliance worldwide.",
     image: container,
     detail:
-      "Beyond our core UK-Ghana corridor, Seventh Air maintains a network of strategic partnerships with major freight carriers, customs brokers, and last-mile delivery providers across six continents. Our in-house customs team comprises licensed brokers certified by both HMRC and the Ghana Revenue Authority, ensuring your shipments navigate import/export regulations flawlessly. We handle all documentation electronically — including Certificates of Origin, ATA Carnets, and commercial invoices — eliminating paperwork bottlenecks. Whether your cargo requires temperature-controlled transport, hazardous material handling, or oversized freight solutions, our global coverage infrastructure scales to meet your requirements with precision and compliance.",
+      "Seventh Air maintains a network of strategic partnerships with major freight carriers, customs brokers, and last-mile delivery providers across six continents. Our in-house customs team comprises licensed brokers well-versed in international trade regulations, ensuring your shipments navigate import/export requirements flawlessly. We handle all documentation electronically — including Certificates of Origin, ATA Carnets, and commercial invoices — eliminating paperwork bottlenecks. Whether your cargo requires temperature-controlled transport, hazardous material handling, or oversized freight solutions, our global coverage infrastructure scales to meet your requirements with precision and compliance.",
   },
 ];
 
@@ -212,7 +212,7 @@ const SeventhAirFeatures = () => {
             className="text-lg sm:text-xl max-w-2xl"
             style={{ color: "var(--text-secondary)" }}
           >
-            Comprehensive cargo services tailored for UK-Ghana shipping
+            Comprehensive cargo services for international & domestic shipping
           </p>
         </motion.div>
 

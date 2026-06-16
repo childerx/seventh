@@ -505,7 +505,7 @@ const CollectionPointsPage: React.FC = () => {
           >
             {/* Pill badges */}
             <motion.div variants={itemVariants} className="flex flex-wrap items-center justify-center gap-2 mb-6">
-              {['14 Locations', 'UK & Ghana', 'Real-time Tracking'].map((badge) => (
+              {['14 Locations', 'Worldwide Network', 'Real-time Tracking'].map((badge) => (
                 <span
                   key={badge}
                   className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold"
@@ -544,7 +544,7 @@ const CollectionPointsPage: React.FC = () => {
             >
               Drop off your packages at any of our&nbsp;
               <strong style={{ color: 'var(--text-primary)' }}>14 trusted collection locations</strong>
-              &nbsp;across the UK and Ghana. Fast, reliable, and convenient.
+              &nbsp;across our global network. Fast, reliable, and convenient.
             </motion.p>
           </motion.div>
         </div>

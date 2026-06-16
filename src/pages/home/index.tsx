@@ -1,4 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
+import emailjs from "@emailjs/browser";
+import {
+  EMAILJS_SERVICE_ID,
+  EMAILJS_TEMPLATE_ID,
+  EMAILJS_PUBLIC_KEY,
+} from "@/constants/emailjs";
 import { Link } from "react-location";
 import {
   ChevronLeft,
@@ -16,19 +23,39 @@ import {
   Award,
   TrendingUp,
   Plane,
+  X,
 } from "lucide-react";
 import SeventhAirHero from "./components/hero";
-import globe from "@/assets/images/globe.png";
+import f1 from "@/assets/images/f1.jpeg";
+import f2 from "@/assets/images/f2.jpeg";
+import f3 from "@/assets/images/f3.jpeg";
+import f4 from "@/assets/images/f4.jpeg";
+import f5 from "@/assets/images/f5.jpeg";
+import f6 from "@/assets/images/f6.jpeg";
+import f7 from "@/assets/images/f7.jpeg";
+import f8 from "@/assets/images/f8.jpeg";
+import f9 from "@/assets/images/f9.jpeg";
+import f10 from "@/assets/images/f10.jpeg";
+import f11 from "@/assets/images/f11.jpeg";
+import f12 from "@/assets/images/f12.jpeg";
+import globe from "@/assets/images/globe1.png";
 import planeAir from "@/assets/images/plane-air.jpg";
 import planeCargo1 from "@/assets/images/plane-cargo1.jpg";
 import planeCargo2 from "@/assets/images/plane-cargo2.jpg";
 import container from "@/assets/images/container.jpg";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useInView,
+} from "framer-motion";
 import SeventhAirFeatures from "./components/feature";
 import Faq from "./components/faq";
 import Testimonials from "./components/testimonials";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { toast } from "sonner";
 import TextInput from "@/components/core/text-input";
 import { useTheme } from "@/context/theme-context";
 import { useModalContext } from "@/context/modal-context";
@@ -37,7 +64,7 @@ const sliderData = [
   {
     id: 1,
     title: "Fast & Reliable Delivery",
-    subtitle: "UK to Ghana in just 3 working days",
+    subtitle: "International delivery in as little as 3 working days",
     image: planeAir,
     cta: "Track Your Package",
   },
@@ -201,11 +228,12 @@ const GlobeSection: React.FC = () => {
     "Dedicated air freight routes, 6 days a week",
     "Real-time package tracking from pickup to door",
     "Full customs handling included in every shipment",
-    "Offices in Bantama (Kumasi) and United Kingdom",
+    "Global offices & collection points worldwide",
   ];
 
   return (
     <section
+      id="main-content"
       ref={ref}
       className="relative py-16 sm:py-20 lg:py-28 overflow-hidden"
       style={{ background: isDark ? "#0f172a" : "#ffffff" }}
@@ -384,7 +412,7 @@ const GlobeSection: React.FC = () => {
                 delay: 0.5,
               }}
             >
-              🇬🇧 UK ↔ 🇬🇭 Ghana
+              🌍 Worldwide Shipping
             </motion.div>
           </motion.div>
 
@@ -439,7 +467,7 @@ const GlobeSection: React.FC = () => {
                 className="block tracking-tight mt-1"
                 style={{ color: "var(--text-primary)" }}
               >
-                UK & Ghana,
+                The World,
               </span>
               <span
                 className="block text-xl sm:text-2xl lg:text-3xl mt-2 font-medium tracking-widest uppercase"
@@ -456,8 +484,8 @@ const GlobeSection: React.FC = () => {
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
             >
-              Seventh Air Limited specialises in fast, secure parcel delivery
-              between the UK and Ghana — combining air freight efficiency with
+              Seventh Air Limited specialises in fast, secure international &
+              domestic parcel delivery — combining air freight efficiency with
               personalised service at every step of the journey.
             </motion.p>
 
@@ -814,7 +842,7 @@ const StatsSection: React.FC = () => {
             className="text-base sm:text-lg max-w-xl mx-auto"
             style={{ color: "var(--text-secondary)" }}
           >
-            Trusted by businesses and families shipping between UK and Ghana
+            Trusted by businesses and families shipping across the globe
           </p>
         </motion.div>
 
@@ -905,6 +933,7 @@ const ContactSection: React.FC = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { isDark } = useTheme();
+  const [sending, setSending] = useState(false);
   const contactForm = useFormik({
     initialValues: { name: "", email: "", phone: "", message: "" },
     validationSchema: yup.object({
@@ -916,7 +945,33 @@ const ContactSection: React.FC = () => {
         .min(10, "At least 10 characters")
         .required("Message is required"),
     }),
-    onSubmit: () => {},
+    onSubmit: async (values, { resetForm }) => {
+      setSending(true);
+      try {
+        await emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          {
+            from_name: values.name,
+            from_email: values.email,
+            phone: values.phone,
+            message: values.message,
+            to_email: "zigibut24@gmail.com",
+          },
+          EMAILJS_PUBLIC_KEY,
+        );
+        toast.success("Message sent!", {
+          description: "We'll get back to you as soon as possible.",
+        });
+        resetForm();
+      } catch {
+        toast.error("Failed to send message.", {
+          description: "Please try again or contact us directly.",
+        });
+      } finally {
+        setSending(false);
+      }
+    },
   });
 
   return (
@@ -1034,14 +1089,14 @@ const ContactSection: React.FC = () => {
                 icon: Mail,
                 title: "Email",
                 items: ["info@seventhair.com"],
-                href: `mailto:opoku.ach@gmail.com?subject=${encodeURIComponent("Seventh Air — New Inquiry")}&body=${encodeURIComponent("Dear Seventh Air Team,\n\nI am reaching out via your website to inquire about your cargo and logistics services between the UK and Ghana.\n\nI would like to know more about:\n- \n\nLooking forward to hearing from you.\n\nBest regards,\n")}`,
+                href: `mailto:zigibut24@gmail.com?subject=${encodeURIComponent("Seventh Air — New Inquiry")}&body=${encodeURIComponent("Dear Seventh Air Team,\n\nI am reaching out via your website to inquire about your international cargo and logistics services.\n\nI would like to know more about:\n- \n\nLooking forward to hearing from you.\n\nBest regards,\n")}`,
                 color: "var(--primary-red-light)",
                 hex: "#ef4444",
               },
               {
                 icon: MapPin,
                 title: "Service Areas",
-                items: ["United Kingdom ↔ Ghana"],
+                items: ["Worldwide — International & Domestic"],
                 color: "#22c55e",
                 hex: "#22c55e",
               },
@@ -1128,67 +1183,71 @@ const ContactSection: React.FC = () => {
                   : "0 20px 50px rgba(0,0,0,0.07)",
               }}
             >
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                <TextInput
-                  id="name"
-                  label="Full Name"
-                  placeholder="Full Name"
-                  values={contactForm.values}
-                  errors={contactForm.errors}
-                  touched={contactForm.touched}
-                  handleChange={contactForm.handleChange}
-                  handleBlur={contactForm.handleBlur}
-                />
-                <TextInput
-                  id="email"
-                  label="Email Address"
-                  type="email"
-                  placeholder="Email Address"
-                  values={contactForm.values}
-                  errors={contactForm.errors}
-                  touched={contactForm.touched}
-                  handleChange={contactForm.handleChange}
-                  handleBlur={contactForm.handleBlur}
-                />
-                <TextInput
-                  id="phone"
-                  label="Phone Number"
-                  type="tel"
-                  placeholder="Phone Number"
-                  className="sm:col-span-2"
-                  values={contactForm.values}
-                  errors={contactForm.errors}
-                  touched={contactForm.touched}
-                  handleChange={contactForm.handleChange}
-                  handleBlur={contactForm.handleBlur}
-                />
-                <textarea
-                  id="message"
-                  name="message"
-                  placeholder="Message / Package Details"
-                  rows={4}
-                  value={contactForm.values.message}
-                  onChange={contactForm.handleChange}
-                  onBlur={contactForm.handleBlur}
-                  className="sm:col-span-2 w-full px-4 py-3 bg-transparent rounded-xl border outline-none transition-all duration-200 resize-none focus:border-blue-500 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] hover:border-blue-300/50"
-                  style={{
-                    borderColor: "var(--border-primary)",
-                    color: "var(--text-primary)",
-                  }}
-                />
-                <motion.button
-                  className="sm:col-span-2 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, #1e40af 0%, #dc2626 100%)",
-                    color: "#ffffff",
-                  }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Send Message
-                </motion.button>
-              </div>
+              <form onSubmit={contactForm.handleSubmit}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                  <TextInput
+                    id="name"
+                    label="Full Name"
+                    placeholder="Full Name"
+                    values={contactForm.values}
+                    errors={contactForm.errors}
+                    touched={contactForm.touched}
+                    handleChange={contactForm.handleChange}
+                    handleBlur={contactForm.handleBlur}
+                  />
+                  <TextInput
+                    id="email"
+                    label="Email Address"
+                    type="email"
+                    placeholder="Email Address"
+                    values={contactForm.values}
+                    errors={contactForm.errors}
+                    touched={contactForm.touched}
+                    handleChange={contactForm.handleChange}
+                    handleBlur={contactForm.handleBlur}
+                  />
+                  <TextInput
+                    id="phone"
+                    label="Phone Number"
+                    type="tel"
+                    placeholder="Phone Number"
+                    className="sm:col-span-2"
+                    values={contactForm.values}
+                    errors={contactForm.errors}
+                    touched={contactForm.touched}
+                    handleChange={contactForm.handleChange}
+                    handleBlur={contactForm.handleBlur}
+                  />
+                  <textarea
+                    id="message"
+                    name="message"
+                    placeholder="Message / Package Details"
+                    rows={4}
+                    value={contactForm.values.message}
+                    onChange={contactForm.handleChange}
+                    onBlur={contactForm.handleBlur}
+                    className="sm:col-span-2 w-full px-4 py-3 bg-transparent rounded-xl border outline-none transition-all duration-200 resize-none focus:border-blue-500 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] hover:border-blue-300/50"
+                    style={{
+                      borderColor: "var(--border-primary)",
+                      color: "var(--text-primary)",
+                    }}
+                  />
+                  <motion.button
+                    type="submit"
+                    disabled={sending}
+                    className="sm:col-span-2 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg disabled:opacity-60 disabled:cursor-not-allowed"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #1e40af 0%, #dc2626 100%)",
+                      color: "#ffffff",
+                    }}
+                    whileHover={sending ? {} : { scale: 1.02 }}
+                    whileTap={sending ? {} : { scale: 0.98 }}
+                  >
+                    {sending ? "Sending…" : "Send Message"}
+                  </motion.button>
+                </div>
+              </form>
             </div>
           </motion.div>
         </div>
@@ -1213,6 +1272,406 @@ const ContactSection: React.FC = () => {
   );
 };
 
+const fliers = [
+  {
+    image: f1,
+    headline: "Shop Safely",
+    sub: "Avoid fake sellers & scams — we help you shop SAFELY. We provide support to help you shop securely and confidently.",
+  },
+  {
+    image: f2,
+    headline: "Order Anything",
+    sub: "Fashion, gadgets, accessories... if it's online, we can get it for you. Global shopping made simple.",
+  },
+  {
+    image: f3,
+    headline: "Turn Any Store Local",
+    sub: "Now just one step away. We bring global products within easy reach, making international retailers accessible to you.",
+  },
+  {
+    image: f4,
+    headline: "No More Excuses",
+    sub: "Shop globally today — precision in every package. The world is your store.",
+  },
+  {
+    image: f5,
+    headline: "Built for You",
+    sub: "Reliable, simple, and made for you. We're building something you'll love.",
+  },
+  {
+    image: f6,
+    headline: "Send Us a Link",
+    sub: "See it. Want it. Send it. Share the link and we handle the rest — delivered straight to you.",
+  },
+  {
+    image: f7,
+    headline: "Built for Convenience",
+    sub: "Busy life? Let us handle the stress. We take the hassle out of global shopping so you can focus on what matters.",
+  },
+  {
+    image: f8,
+    headline: "End-to-End Service",
+    sub: "Payment, shipping & delivery — we take care of everything from start to finish, with total peace of mind.",
+  },
+  {
+    image: f9,
+    headline: "Try It Once",
+    sub: "One order and you'll understand the difference. Experience reliable, hassle-free global shopping.",
+  },
+  {
+    image: f10,
+    headline: "Join Smarter Shoppers",
+    sub: "Shop smarter, access global products easily, and enjoy a seamless shopping experience with us.",
+  },
+  {
+    image: f11,
+    headline: "Missing Home?",
+    sub: "Foodstuffs, fashion and more. From Ghana to Europe and beyond — safely and reliably.",
+  },
+  {
+    image: f12,
+    headline: "Checkout to Doorstep",
+    sub: "We manage the entire process — from purchase and shipping right through to safe delivery at your door.",
+  },
+];
+
+interface FlierCardProps {
+  flier: { image: string; headline: string; sub: string };
+  idx: number;
+  isDark: boolean;
+  onOpen: (idx: number) => void;
+}
+
+const FlierCard: React.FC<FlierCardProps> = ({ flier, idx, isDark, onOpen }) => (
+  <div
+    className="flex-shrink-0 relative rounded-xl overflow-hidden cursor-pointer group"
+    style={{
+      height: "clamp(160px, 22vw, 240px)",
+      aspectRatio: "3 / 4",
+      boxShadow: isDark
+        ? "0 4px 20px rgba(0,0,0,0.35)"
+        : "0 4px 20px rgba(0,0,0,0.1)",
+    }}
+    onClick={() => onOpen(idx)}
+  >
+    <img
+      src={flier.image}
+      alt={flier.headline}
+      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+    />
+    <div
+      className="absolute inset-0"
+      style={{
+        background:
+          "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)",
+      }}
+    />
+    <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3">
+      <div
+        className="inline-block px-1.5 py-0.5 rounded-full text-[9px] font-semibold mb-1"
+        style={{
+          background: "linear-gradient(135deg, #1e40af, #dc2626)",
+          color: "#fff",
+        }}
+      >
+        Seventh Air
+      </div>
+      <h3 className="text-white font-bold text-xs sm:text-sm leading-tight drop-shadow-lg line-clamp-2">
+        {flier.headline}
+      </h3>
+    </div>
+    <div className="absolute inset-0 rounded-xl ring-2 ring-blue-500/0 group-hover:ring-blue-500/60 transition-all duration-300" />
+  </div>
+);
+
+const FlierGallery: React.FC = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const [lightbox, setLightbox] = useState<number | null>(null);
+  const { isDark } = useTheme();
+
+  const prev = () =>
+    setLightbox((l) =>
+      l !== null ? (l === 0 ? fliers.length - 1 : l - 1) : null,
+    );
+  const next = () =>
+    setLightbox((l) =>
+      l !== null ? (l === fliers.length - 1 ? 0 : l + 1) : null,
+    );
+
+  const row1 = fliers.slice(0, 6);
+  const row2 = fliers.slice(6);
+
+  return (
+    <section
+      ref={ref}
+      className="relative py-12 sm:py-16 lg:py-24 overflow-hidden"
+      style={{ background: isDark ? "#1e293b" : "#f8fafc" }}
+    >
+      {/* Background orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div
+          className="absolute -top-32 -left-32 w-96 h-96 rounded-full blur-[120px]"
+          style={{
+            background: isDark
+              ? "rgba(59,130,246,0.08)"
+              : "rgba(59,130,246,0.06)",
+          }}
+          animate={{ x: [0, 60, 0], y: [0, -30, 0] }}
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -bottom-32 -right-32 w-80 h-80 rounded-full blur-[100px]"
+          style={{
+            background: isDark
+              ? "rgba(220,38,38,0.08)"
+              : "rgba(220,38,38,0.06)",
+          }}
+          animate={{ x: [0, -60, 0], y: [0, 30, 0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header */}
+        <motion.div
+          className="text-center mb-8 sm:mb-12 lg:mb-14"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <div
+            className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border mb-4 sm:mb-5 text-sm font-semibold"
+            style={{
+              background: isDark
+                ? "rgba(30,41,59,0.6)"
+                : "rgba(255,255,255,0.8)",
+              borderColor: isDark
+                ? "rgba(59,130,246,0.25)"
+                : "rgba(59,130,246,0.2)",
+              color: "var(--primary-blue-light)",
+              backdropFilter: "blur(12px)",
+            }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+            <span>Campaigns & Highlights</span>
+          </div>
+          <h2
+            className="text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold mb-3 sm:mb-4 leading-none"
+            style={{ fontFamily: "var(--font-heading)" }}
+          >
+            <span style={{ color: "var(--text-primary)" }}>From Our </span>
+            <span
+              className="bg-gradient-to-r from-blue-600 via-red-500 to-blue-700 bg-clip-text text-transparent"
+              style={{
+                backgroundSize: "200% auto",
+                animation: "shimmer 4s ease-in-out infinite",
+              }}
+            >
+              Gallery
+            </span>
+          </h2>
+          <p
+            className="text-sm sm:text-base lg:text-lg max-w-xl mx-auto"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            Tap any image to view full size.
+          </p>
+        </motion.div>
+
+      </div>
+
+      {/* Marquee rows — full bleed */}
+      <motion.div
+        className="mt-8 sm:mt-10 space-y-3 sm:space-y-4"
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
+        {/* Row 1 — scrolls left */}
+        <div
+          className="overflow-hidden"
+          style={{
+            maskImage:
+              "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+          }}
+        >
+          <div
+            className="flex gap-3 sm:gap-4 animate-scroll-left pause-on-hover"
+            style={{ width: "max-content" }}
+          >
+            {[...row1, ...row1].map((flier, i) => (
+              <FlierCard
+                key={`r1-${i}`}
+                flier={flier}
+                idx={fliers.indexOf(flier)}
+                isDark={isDark}
+                onOpen={setLightbox}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Row 2 — scrolls right */}
+        <div
+          className="overflow-hidden"
+          style={{
+            maskImage:
+              "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+          }}
+        >
+          <div
+            className="flex gap-3 sm:gap-4 animate-scroll-right pause-on-hover"
+            style={{ width: "max-content" }}
+          >
+            {[...row2, ...row2].map((flier, i) => (
+              <FlierCard
+                key={`r2-${i}`}
+                flier={flier}
+                idx={fliers.indexOf(flier)}
+                isDark={isDark}
+                onOpen={setLightbox}
+              />
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Lightbox */}
+      {createPortal(<AnimatePresence>
+        {lightbox !== null && (
+          <motion.div
+            className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center sm:p-6 lg:p-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setLightbox(null)}
+            style={{
+              background: "rgba(0,0,0,0.92)",
+              backdropFilter: "blur(10px)",
+            }}
+          >
+            <motion.div
+              className="relative w-full sm:max-w-sm lg:max-w-md max-h-[92dvh] sm:max-h-[88vh] flex flex-col rounded-t-3xl sm:rounded-2xl overflow-hidden"
+              initial={{ scale: 0.92, opacity: 0, y: 30 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.92, opacity: 0, y: 30 }}
+              transition={{ type: "spring", stiffness: 300, damping: 28 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: isDark
+                  ? "rgba(15,23,42,0.95)"
+                  : "rgba(15,23,42,0.95)",
+              }}
+            >
+              {/* Image */}
+              <div className="relative flex-shrink-0">
+                <img
+                  src={fliers[lightbox].image}
+                  alt={fliers[lightbox].headline}
+                  className="w-full object-contain max-h-[60dvh] sm:max-h-[65vh]"
+                />
+                {/* Prev / Next over image */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    prev();
+                  }}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white"
+                  style={{
+                    background: "rgba(0,0,0,0.45)",
+                    backdropFilter: "blur(6px)",
+                  }}
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    next();
+                  }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white"
+                  style={{
+                    background: "rgba(0,0,0,0.45)",
+                    backdropFilter: "blur(6px)",
+                  }}
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+                {/* Close */}
+                <button
+                  onClick={() => setLightbox(null)}
+                  className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white"
+                  style={{
+                    background: "rgba(0,0,0,0.5)",
+                    backdropFilter: "blur(6px)",
+                  }}
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Caption */}
+              <div className="p-4 sm:p-5 overflow-y-auto">
+                <h3 className="text-white font-bold text-base sm:text-lg mb-1.5">
+                  {fliers[lightbox].headline}
+                </h3>
+                <p className="text-white/60 text-xs sm:text-sm leading-relaxed">
+                  {fliers[lightbox].sub}
+                </p>
+
+                {/* Dot indicators */}
+                <div className="flex justify-center gap-1.5 mt-4 flex-wrap">
+                  {fliers.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setLightbox(i);
+                      }}
+                      className="rounded-full transition-all duration-200 flex-shrink-0"
+                      style={{
+                        width: i === lightbox ? 18 : 6,
+                        height: 6,
+                        background:
+                          i === lightbox
+                            ? "linear-gradient(135deg, #1e40af, #dc2626)"
+                            : "rgba(255,255,255,0.25)",
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>, document.body)}
+
+      <div
+        className="absolute inset-x-0 top-0 h-20 pointer-events-none z-20"
+        style={{
+          background: isDark
+            ? "linear-gradient(to bottom, rgba(30,41,59,1), rgba(30,41,59,0))"
+            : "linear-gradient(to bottom, rgba(248,250,252,1), rgba(248,250,252,0))",
+        }}
+      />
+      <div
+        className="absolute inset-x-0 bottom-0 h-20 pointer-events-none z-20"
+        style={{
+          background: isDark
+            ? "linear-gradient(to top, rgba(30,41,59,1), rgba(30,41,59,0))"
+            : "linear-gradient(to top, rgba(248,250,252,1), rgba(248,250,252,0))",
+        }}
+      />
+    </section>
+  );
+};
+
 const HomePage: React.FC = () => {
   const { isDark } = useTheme();
 
@@ -1228,6 +1687,7 @@ const HomePage: React.FC = () => {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <Slider />
         </section>
+        <FlierGallery />
         <Testimonials />
         <TrackingSection />
         <StatsSection />
