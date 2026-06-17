@@ -575,6 +575,7 @@ const TrackingSection: React.FC = () => {
 
   return (
     <section
+      id="tracking"
       ref={ref}
       className="relative py-16 sm:py-20 lg:py-24 overflow-hidden"
       style={{ background: isDark ? "#1e293b" : "#ffffff" }}
@@ -956,7 +957,7 @@ const ContactSection: React.FC = () => {
             from_email: values.email,
             phone: values.phone,
             message: values.message,
-            to_email: "zigibut24@gmail.com",
+            to_email: "opoku.ach@gmail.com",
           },
           EMAILJS_PUBLIC_KEY,
         );
@@ -1089,7 +1090,7 @@ const ContactSection: React.FC = () => {
                 icon: Mail,
                 title: "Email",
                 items: ["info@seventhair.com"],
-                href: `mailto:zigibut24@gmail.com?subject=${encodeURIComponent("Seventh Air — New Inquiry")}&body=${encodeURIComponent("Dear Seventh Air Team,\n\nI am reaching out via your website to inquire about your international cargo and logistics services.\n\nI would like to know more about:\n- \n\nLooking forward to hearing from you.\n\nBest regards,\n")}`,
+                href: `mailto:opoku.ach@gmail.com?subject=${encodeURIComponent("Seventh Air — New Inquiry")}&body=${encodeURIComponent("Dear Seventh Air Team,\n\nI am reaching out via your website to inquire about your international cargo and logistics services.\n\nI would like to know more about:\n- \n\nLooking forward to hearing from you.\n\nBest regards,\n")}`,
                 color: "var(--primary-red-light)",
                 hex: "#ef4444",
               },
@@ -1342,7 +1343,12 @@ interface FlierCardProps {
   onOpen: (idx: number) => void;
 }
 
-const FlierCard: React.FC<FlierCardProps> = ({ flier, idx, isDark, onOpen }) => (
+const FlierCard: React.FC<FlierCardProps> = ({
+  flier,
+  idx,
+  isDark,
+  onOpen,
+}) => (
   <div
     className="flex-shrink-0 relative rounded-xl overflow-hidden cursor-pointer group"
     style={{
@@ -1478,7 +1484,6 @@ const FlierGallery: React.FC = () => {
             Tap any image to view full size.
           </p>
         </motion.div>
-
       </div>
 
       {/* Marquee rows — full bleed */}
@@ -1542,115 +1547,138 @@ const FlierGallery: React.FC = () => {
       </motion.div>
 
       {/* Lightbox */}
-      {createPortal(<AnimatePresence>
-        {lightbox !== null && (
-          <motion.div
-            className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center sm:p-6 lg:p-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            onClick={() => setLightbox(null)}
-            style={{
-              background: "rgba(0,0,0,0.92)",
-              backdropFilter: "blur(10px)",
-            }}
-          >
+      {createPortal(
+        <AnimatePresence>
+          {lightbox !== null && (
             <motion.div
-              className="relative w-full sm:max-w-sm lg:max-w-md max-h-[92dvh] sm:max-h-[88vh] flex flex-col rounded-t-3xl sm:rounded-2xl overflow-hidden"
-              initial={{ scale: 0.92, opacity: 0, y: 30 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.92, opacity: 0, y: 30 }}
-              transition={{ type: "spring", stiffness: 300, damping: 28 }}
-              onClick={(e) => e.stopPropagation()}
+              className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center sm:p-6 lg:p-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setLightbox(null)}
               style={{
-                background: isDark
-                  ? "rgba(15,23,42,0.95)"
-                  : "rgba(15,23,42,0.95)",
+                background: "rgba(0,0,0,0.92)",
+                backdropFilter: "blur(10px)",
               }}
             >
-              {/* Image */}
-              <div className="relative flex-shrink-0">
-                <img
-                  src={fliers[lightbox].image}
-                  alt={fliers[lightbox].headline}
-                  className="w-full object-contain max-h-[60dvh] sm:max-h-[65vh]"
-                />
-                {/* Prev / Next over image */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    prev();
-                  }}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white"
-                  style={{
-                    background: "rgba(0,0,0,0.45)",
-                    backdropFilter: "blur(6px)",
-                  }}
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    next();
-                  }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white"
-                  style={{
-                    background: "rgba(0,0,0,0.45)",
-                    backdropFilter: "blur(6px)",
-                  }}
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-                {/* Close */}
-                <button
-                  onClick={() => setLightbox(null)}
-                  className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white"
-                  style={{
-                    background: "rgba(0,0,0,0.5)",
-                    backdropFilter: "blur(6px)",
-                  }}
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-
-              {/* Caption */}
-              <div className="p-4 sm:p-5 overflow-y-auto">
-                <h3 className="text-white font-bold text-base sm:text-lg mb-1.5">
-                  {fliers[lightbox].headline}
-                </h3>
-                <p className="text-white/60 text-xs sm:text-sm leading-relaxed">
-                  {fliers[lightbox].sub}
-                </p>
-
-                {/* Dot indicators */}
-                <div className="flex justify-center gap-1.5 mt-4 flex-wrap">
-                  {fliers.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setLightbox(i);
-                      }}
-                      className="rounded-full transition-all duration-200 flex-shrink-0"
-                      style={{
-                        width: i === lightbox ? 18 : 6,
-                        height: 6,
-                        background:
-                          i === lightbox
-                            ? "linear-gradient(135deg, #1e40af, #dc2626)"
-                            : "rgba(255,255,255,0.25)",
-                      }}
-                    />
-                  ))}
+              <motion.div
+                className="relative w-full sm:max-w-sm lg:max-w-md max-h-[92dvh] sm:max-h-[88vh] flex flex-col rounded-t-3xl sm:rounded-2xl overflow-hidden"
+                initial={{ scale: 0.92, opacity: 0, y: 30 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.92, opacity: 0, y: 30 }}
+                transition={{ type: "spring", stiffness: 300, damping: 28 }}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  background: isDark
+                    ? "rgba(15,23,42,0.98)"
+                    : "rgba(255,255,255,0.98)",
+                  boxShadow: isDark
+                    ? "0 25px 60px rgba(0,0,0,0.6)"
+                    : "0 25px 60px rgba(0,0,0,0.25)",
+                }}
+              >
+                {/* Image */}
+                <div className="relative flex-shrink-0">
+                  <img
+                    src={fliers[lightbox].image}
+                    alt={fliers[lightbox].headline}
+                    className="w-full object-contain max-h-[60dvh] sm:max-h-[65vh]"
+                  />
+                  {/* Prev / Next over image */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      prev();
+                    }}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white"
+                    style={{
+                      background: "rgba(0,0,0,0.45)",
+                      backdropFilter: "blur(6px)",
+                    }}
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      next();
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-white"
+                    style={{
+                      background: "rgba(0,0,0,0.45)",
+                      backdropFilter: "blur(6px)",
+                    }}
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                  {/* Close */}
+                  <button
+                    onClick={() => setLightbox(null)}
+                    className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white"
+                    style={{
+                      background: "rgba(0,0,0,0.5)",
+                      backdropFilter: "blur(6px)",
+                    }}
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
-              </div>
+
+                {/* Caption */}
+                <div
+                  className="p-4 sm:p-5 overflow-y-auto"
+                  style={{
+                    borderTop: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+                  }}
+                >
+                  <h3
+                    className="font-bold text-base sm:text-lg mb-1.5"
+                    style={{ color: isDark ? "#f8fafc" : "#0f172a" }}
+                  >
+                    {fliers[lightbox].headline}
+                  </h3>
+                  <p
+                    className="text-xs sm:text-sm leading-relaxed"
+                    style={{
+                      color: isDark
+                        ? "rgba(248,250,252,0.55)"
+                        : "rgba(15,23,42,0.55)",
+                    }}
+                  >
+                    {fliers[lightbox].sub}
+                  </p>
+
+                  {/* Dot indicators */}
+                  <div className="flex justify-center gap-1.5 mt-4 flex-wrap">
+                    {fliers.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setLightbox(i);
+                        }}
+                        className="rounded-full transition-all duration-200 flex-shrink-0"
+                        style={{
+                          width: i === lightbox ? 18 : 6,
+                          height: 6,
+                          background:
+                            i === lightbox
+                              ? "linear-gradient(135deg, #1e40af, #dc2626)"
+                              : isDark
+                                ? "rgba(255,255,255,0.25)"
+                                : "rgba(0,0,0,0.18)",
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>, document.body)}
+          )}
+        </AnimatePresence>,
+        document.body,
+      )}
 
       <div
         className="absolute inset-x-0 top-0 h-20 pointer-events-none z-20"

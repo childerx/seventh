@@ -2,6 +2,7 @@ export const HOME = "/";
 export const ABOUT = "/about-us";
 export const CONTACT = "/contact-us";
 export const SERVICES = "/services";
+export const CONTAINERS = "/containers";
 export const COLLECTION_POINTS = "/collection-points";
 
 export const DASHBOARD = "/dashboard";

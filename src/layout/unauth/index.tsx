@@ -4,6 +4,8 @@ import Navbar from "./nav";
 import { ModalProvider } from "@/context/modal-context";
 import ContactModal from "@/components/core/contact-modal";
 import ScrollToTop from "@/components/core/scroll-to-top";
+import React, { Suspense } from "react";
+import PageLoader from "@/components/core/page-loader";
 
 export default function UnauthLayout() {
   return (
@@ -12,7 +14,9 @@ export default function UnauthLayout() {
         <Navbar />
 
         <div className="w-full">
-          <Outlet />
+          <Suspense fallback={<PageLoader />}>
+            <Outlet />
+          </Suspense>
         </div>
 
         <Footer />

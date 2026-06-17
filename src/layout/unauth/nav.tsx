@@ -20,6 +20,20 @@ const SeventhAirNavbar: React.FC<NavbarProps> = ({ className = '' }) => {
   const { openContactModal } = useModalContext();
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const navRef = useRef<HTMLElement>(null);
+  const handleDropdownClick = (
+    e: React.MouseEvent,
+    href: string,
+    onClose: () => void,
+  ) => {
+    const hashIdx = href.indexOf('#');
+    const path = hashIdx !== -1 ? href.slice(0, hashIdx) : href;
+    const hash = hashIdx !== -1 ? href.slice(hashIdx + 1) : '';
+    onClose();
+    if (hash && window.location.pathname === path) {
+      e.preventDefault();
+      document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -41,23 +55,23 @@ const SeventhAirNavbar: React.FC<NavbarProps> = ({ className = '' }) => {
     { label: 'About Us', href: '/about-us', isRoute: true, dropdown: null },
     {
       label: 'Services',
-      href: '#services',
-      isRoute: false,
+      href: '/services',
+      isRoute: true,
       dropdown: [
-        { label: 'Air Freight', href: '#air-freight', icon: <Plane className="w-4 h-4" /> },
-        { label: 'Ground Shipping', href: '#ground', icon: <Truck className="w-4 h-4" /> },
-        { label: 'Express Delivery', href: '#express', icon: <Package className="w-4 h-4" /> },
-        { label: 'International', href: '#international', icon: <Globe className="w-4 h-4" /> }
+        { label: 'Air Freight', href: '/services#air-freight', isRoute: true, icon: <Plane className="w-4 h-4" /> },
+        { label: 'Ground Shipping', href: '/services#ground-shipping', isRoute: true, icon: <Truck className="w-4 h-4" /> },
+        { label: 'Express Delivery', href: '/services#express-delivery', isRoute: true, icon: <Package className="w-4 h-4" /> },
+        { label: 'International', href: '/services#international', isRoute: true, icon: <Globe className="w-4 h-4" /> },
       ]
     },
     {
       label: 'Containers',
-      href: '#containers',
-      isRoute: false,
+      href: '/containers',
+      isRoute: true,
       dropdown: [
-        { label: '20ft Container', href: '#20ft' },
-        { label: '40ft Container', href: '#40ft' },
-        { label: 'Refrigerated', href: '#refrigerated' }
+        { label: '20ft Container', href: '/containers#20ft', isRoute: true, icon: null },
+        { label: '40ft Container', href: '/containers#40ft', isRoute: true, icon: null },
+        { label: 'Refrigerated', href: '/containers#refrigerated', isRoute: true, icon: null },
       ]
     },
     { label: 'Collection Points', href: '/collection-points', isRoute: true, dropdown: null }
@@ -91,7 +105,9 @@ const SeventhAirNavbar: React.FC<NavbarProps> = ({ className = '' }) => {
           }}
         >
           <div className="px-5 py-2.5 flex items-center justify-between">
-            <img src={isDark ? logoWhite : logo} alt="Seventh Air Logo" className="w-12 h-11 object-contain" />
+            <Link to="/" aria-label="Go to homepage">
+              <img src={isDark ? logoWhite : logo} alt="Seventh Air Logo" className="w-12 h-11 object-contain" />
+            </Link>
             
             <div className="hidden lg:flex items-center space-x-6">
               {navLinks.map((link, index) => (
@@ -101,35 +117,23 @@ const SeventhAirNavbar: React.FC<NavbarProps> = ({ className = '' }) => {
                   onMouseEnter={() => handleMouseEnter(link.label)}
                   onMouseLeave={handleMouseLeave}
                 >
-                  {link.isRoute ? (
-                    <Link
-                      to={link.href}
-                      className={`
-                        font-medium text-sm tracking-wide transition-colors duration-200 flex items-center space-x-1 py-2
-                        ${isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}
-                      `}
-                    >
-                      <span>{link.label}</span>
-                    </Link>
-                  ) : (
-                    <a
-                      href={link.href}
-                      className={`
-                        font-medium text-sm tracking-wide transition-colors duration-200 flex items-center space-x-1 py-2
-                        ${isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}
-                      `}
-                    >
-                      <span>{link.label}</span>
-                      {link.dropdown && (
-                        <motion.div
-                          animate={{ rotate: activeDropdown === link.label ? 180 : 0 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <ChevronDown className="w-3 h-3" />
-                        </motion.div>
-                      )}
-                    </a>
-                  )}
+                  <Link
+                    to={link.href}
+                    className={`
+                      font-medium text-sm tracking-wide transition-colors duration-200 flex items-center space-x-1 py-2
+                      ${isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}
+                    `}
+                  >
+                    <span>{link.label}</span>
+                    {link.dropdown && (
+                      <motion.div
+                        animate={{ rotate: activeDropdown === link.label ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <ChevronDown className="w-3 h-3" />
+                      </motion.div>
+                    )}
+                  </Link>
                   
                   <AnimatePresence>
                     {link.dropdown && activeDropdown === link.label && (
@@ -151,20 +155,21 @@ const SeventhAirNavbar: React.FC<NavbarProps> = ({ className = '' }) => {
                       >
                         <div className="p-2">
                           {link.dropdown.map((item: any, idx) => (
-                            <a
+                            <Link
                               key={idx}
-                              href={item.href}
+                              to={item.href}
+                              onClick={(e) => handleDropdownClick(e, item.href, () => setActiveDropdown(null))}
                               className={`
                                 flex items-center space-x-3 px-3 py-2.5 rounded-xl transition-colors duration-150
-                                ${isDark 
-                                  ? 'text-gray-300 hover:bg-white/10 hover:text-white' 
+                                ${isDark
+                                  ? 'text-gray-300 hover:bg-white/10 hover:text-white'
                                   : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                                 }
                               `}
                             >
                               {item.icon && <span className={isDark ? 'text-blue-400' : 'text-blue-600'}>{item.icon}</span>}
                               <span className="text-sm font-medium">{item.label}</span>
-                            </a>
+                            </Link>
                           ))}
                         </div>
                       </motion.div>
@@ -267,15 +272,15 @@ const SeventhAirNavbar: React.FC<NavbarProps> = ({ className = '' }) => {
                     {link.dropdown && (
                       <div className="ml-4 mt-1 space-y-1">
                         {link.dropdown.map((item: any, idx) => (
-                          <a
+                          <Link
                             key={idx}
-                            href={item.href}
+                            to={item.href}
+                            onClick={(e) => handleDropdownClick(e, item.href, () => setIsMenuOpen(false))}
                             className={`flex items-center space-x-2 py-2 px-4 text-sm transition-colors duration-150 ${isDark ? 'text-gray-400 hover:text-blue-400' : 'text-gray-600 hover:text-blue-600'}`}
-                            onClick={() => setIsMenuOpen(false)}
                           >
                             {item.icon && item.icon}
                             <span>{item.label}</span>
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     )}

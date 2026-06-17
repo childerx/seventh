@@ -5,12 +5,14 @@ import { ArrowRight, Package, Shield, Clock, ChevronDown } from "lucide-react";
 import planeImg from "@/assets/images/cargo.png";
 import { LuArrowRightLeft } from "react-icons/lu";
 import { useTheme } from "@/context/theme-context";
+import { useModalContext } from "@/context/modal-context";
 
 const SeventhAirHero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mountRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const { isDark } = useTheme();
+  const { openContactModal } = useModalContext();
 
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
@@ -245,6 +247,7 @@ const SeventhAirHero: React.FC = () => {
 
               <motion.div className="flex flex-wrap gap-3 sm:gap-4" variants={itemVariants}>
                 <motion.button
+                  onClick={openContactModal}
                   className="flex justify-center px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg"
                   style={{ background: 'linear-gradient(135deg, #1e40af 0%, #dc2626 100%)', color: '#ffffff' }}
                   whileHover={{ scale: 1.05 }}
@@ -258,6 +261,7 @@ const SeventhAirHero: React.FC = () => {
                 </motion.button>
 
                 <motion.button
+                  onClick={() => document.getElementById('tracking')?.scrollIntoView({ behavior: 'smooth' })}
                   className="px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg border"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}

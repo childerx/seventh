@@ -1,115 +1,97 @@
 import React, { useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import {
-  Plane,
-  Truck,
-  Zap,
-  Globe,
+  Box,
+  Thermometer,
+  Ruler,
+  Weight,
   CheckCircle,
   ArrowRight,
   Package,
-  Clock,
-  Shield,
-  MapPin,
 } from "lucide-react";
-import planeAir from "@/assets/images/plane-air.jpg";
+import containerImg from "@/assets/images/container.jpg";
 import planeCargo1 from "@/assets/images/plane-cargo1.jpg";
-import planeCargo2 from "@/assets/images/plane-cargo2.jpg";
-import ban1 from "@/assets/images/f4.jpeg";
+import ban2 from "@/assets/images/f3.jpeg";
 import { useTheme } from "@/context/theme-context";
 import { useModalContext } from "@/context/modal-context";
 
-const services = [
+const containers = [
   {
-    id: "air-freight",
-    icon: Plane,
-    label: "Air Freight",
-    tagline: "Fast. Reliable. Worldwide.",
-    description:
-      "Our air freight service offers the fastest transit times for your cargo, connecting you to destinations across the globe with precision and care. Whether it's urgent documents, electronics, or heavy machinery, we handle every shipment with the attention it deserves.",
-    image: planeAir,
+    id: "20ft",
+    label: "20ft Container",
+    tagline: "The Compact Powerhouse.",
+    icon: Box,
     color: "#1e40af",
-    highlights: [
-      "Express door-to-door delivery",
-      "3–5 business day international transit",
-      "Full customs clearance support",
-      "Real-time shipment tracking",
-      "Cargo insurance options",
-      "Dangerous goods handling",
+    image: containerImg,
+    description:
+      "Our 20-foot standard container is the most commonly used unit in global shipping. Ideal for dense, heavy goods, palletised cargo, and household effects. It provides a secure, weather-tight environment for your shipment from origin to destination.",
+    specs: [
+      { label: "Internal Length", value: "5.90 m" },
+      { label: "Internal Width", value: "2.35 m" },
+      { label: "Internal Height", value: "2.39 m" },
+      { label: "Capacity", value: "~33 m³" },
+      { label: "Max Payload", value: "21,770 kg" },
+      { label: "Tare Weight", value: "2,230 kg" },
     ],
-    stats: [
-      { value: "3–5", label: "Days transit" },
-      { value: "100+", label: "Destinations" },
-      { value: "24/7", label: "Support" },
+    highlights: [
+      "Ideal for dense, heavy cargo",
+      "Palletised and bulk goods",
+      "Household moves & personal effects",
+      "Weather-tight steel construction",
+      "Customs-sealed for international transit",
+      "Available as FCL or LCL",
     ],
   },
   {
-    id: "ground-shipping",
-    icon: Truck,
-    label: "Ground Shipping",
-    tagline: "Dependable. Cost-Effective. Door-to-Door.",
-    description:
-      "Our ground shipping network ensures safe, cost-effective transport for domestic and regional shipments. From small parcels to full truck loads, we coordinate collection, transit, and delivery so you don't have to.",
-    image: planeCargo1,
+    id: "40ft",
+    label: "40ft Container",
+    tagline: "Maximum Capacity. Maximum Value.",
+    icon: Package,
     color: "#dc2626",
-    highlights: [
-      "Nationwide domestic coverage",
-      "Less-than-truckload (LTL) & full truckload",
-      "Scheduled pickup & delivery windows",
-      "Fragile and oversized cargo welcome",
-      "Temperature-controlled options",
-      "Proof of delivery confirmation",
+    image: planeCargo1,
+    description:
+      "Double the volume of a 20ft unit, our 40-foot container is the go-to choice for large shipments, furniture, vehicles, and high-volume retail orders. The extra length means fewer containers per shipment and significant cost savings on a per-unit basis.",
+    specs: [
+      { label: "Internal Length", value: "12.03 m" },
+      { label: "Internal Width", value: "2.35 m" },
+      { label: "Internal Height", value: "2.39 m" },
+      { label: "Capacity", value: "~67 m³" },
+      { label: "Max Payload", value: "26,750 kg" },
+      { label: "Tare Weight", value: "3,750 kg" },
     ],
-    stats: [
-      { value: "5–10", label: "Days domestic" },
-      { value: "50+", label: "Cities covered" },
-      { value: "99%", label: "On-time rate" },
+    highlights: [
+      "Twice the volume of a 20ft unit",
+      "Vehicles, furniture & large machinery",
+      "High-volume retail & e-commerce orders",
+      "40ft High Cube option available (+30cm height)",
+      "Cost-effective for large, light cargo",
+      "Available as FCL",
     ],
   },
   {
-    id: "express-delivery",
-    icon: Zap,
-    label: "Express Delivery",
-    tagline: "When Every Hour Counts.",
+    id: "refrigerated",
+    label: "Refrigerated Container",
+    tagline: "Cold Chain. Guaranteed.",
+    icon: Thermometer,
+    color: "#0891b2",
+    image: ban2,
     description:
-      "Time-critical shipments demand a premium, priority service. Our express delivery lane fast-tracks your cargo through every stage — from pickup to final-mile — with dedicated handling and priority loading on the next available flight or vehicle.",
-    image: planeCargo2,
-    color: "#7c3aed",
+      "Also known as Reefer containers, our refrigerated units maintain precise temperature control throughout the entire journey. Perfect for perishable food, pharmaceuticals, flowers, and any cargo that demands an unbroken cold chain from pickup to delivery.",
+    specs: [
+      { label: "Temperature Range", value: "-25°C to +25°C" },
+      { label: "Available Sizes", value: "20ft & 40ft" },
+      { label: "Power Source", value: "Shore power + genset" },
+      { label: "Humidity Control", value: "Yes" },
+      { label: "Monitoring", value: "Real-time data logging" },
+      { label: "Certifications", value: "ATP certified" },
+    ],
     highlights: [
-      "Next-day & same-day options",
-      "Priority loading on all routes",
-      "Dedicated account manager",
-      "Proactive status notifications",
-      "Guaranteed delivery windows",
-      "Secure chain-of-custody handling",
-    ],
-    stats: [
-      { value: "24h", label: "Express turnaround" },
-      { value: "100%", label: "Priority handled" },
-      { value: "Live", label: "Tracking updates" },
-    ],
-  },
-  {
-    id: "international",
-    icon: Globe,
-    label: "International Shipping",
-    tagline: "The World is Your Warehouse.",
-    description:
-      "Trade without borders. Our international shipping solution covers import and export across continents — managing customs declarations, duties, and documentation so your goods move seamlessly from origin to destination, wherever in the world that may be.",
-    image: ban1,
-    color: "#059669",
-    highlights: [
-      "Import & export management",
-      "Customs brokerage & documentation",
-      "Multi-modal (air + road + sea) options",
-      "Competitive freight rates",
-      "HS code classification support",
-      "Duty drawback assistance",
-    ],
-    stats: [
-      { value: "50+", label: "Countries served" },
-      { value: "All", label: "Modes of transport" },
-      { value: "Zero", label: "Hidden fees" },
+      "Unbroken cold chain from origin to door",
+      "Fresh produce, meat & seafood",
+      "Pharmaceuticals & vaccines",
+      "Flowers, plants & perishables",
+      "Real-time temperature monitoring",
+      "24/7 alarm & alert system",
     ],
   },
 ];
@@ -123,22 +105,25 @@ const fadeUp = {
   }),
 };
 
-interface ServiceSectionProps {
-  service: (typeof services)[0];
+interface ContainerSectionProps {
+  container: (typeof containers)[0];
   index: number;
 }
 
-const ServiceSection: React.FC<ServiceSectionProps> = ({ service, index }) => {
+const ContainerSection: React.FC<ContainerSectionProps> = ({
+  container,
+  index,
+}) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const { isDark } = useTheme();
   const { openContactModal } = useModalContext();
-  const Icon = service.icon;
+  const Icon = container.icon;
   const isEven = index % 2 === 0;
 
   return (
     <section
-      id={service.id}
+      id={container.id}
       ref={ref}
       className="relative py-16 sm:py-20 lg:py-28 overflow-hidden"
       style={{
@@ -152,15 +137,14 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ service, index }) => {
               : "#f8fafc",
       }}
     >
-      {/* Subtle background orb */}
       <div
-        className="absolute pointer-events-none rounded-full blur-[120px] opacity-20"
+        className="absolute pointer-events-none rounded-full blur-[120px] opacity-15"
         style={{
           width: 500,
           height: 500,
-          background: service.color,
+          background: container.color,
           top: "50%",
-          [isEven ? "left" : "right"]: "-10%",
+          [isEven ? "right" : "left"]: "-10%",
           transform: "translateY(-50%)",
         }}
       />
@@ -168,7 +152,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ service, index }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div
           className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${
-            isEven ? "" : "lg:[&>*:first-child]:order-2"
+            isEven ? "lg:[&>*:first-child]:order-2" : ""
           }`}
         >
           {/* Image */}
@@ -181,29 +165,31 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ service, index }) => {
             style={{ aspectRatio: "4/3" }}
           >
             <img
-              src={service.image}
-              alt={service.label}
+              src={container.image}
+              alt={container.label}
               className="w-full h-full object-cover"
               loading="lazy"
             />
             <div
               className="absolute inset-0"
               style={{
-                background: `linear-gradient(135deg, ${service.color}33 0%, transparent 60%)`,
+                background: `linear-gradient(135deg, ${container.color}44 0%, transparent 60%)`,
               }}
             />
-            {/* Floating stat chips */}
-            <div className="absolute bottom-4 left-4 right-4 flex gap-2 flex-wrap">
-              {service.stats.map((s, i) => (
+            {/* Spec chips */}
+            <div className="absolute bottom-4 left-4 right-4 grid grid-cols-3 gap-2">
+              {container.specs.slice(0, 3).map((s, i) => (
                 <div
                   key={i}
-                  className="px-3 py-1.5 rounded-xl backdrop-blur-md text-white text-center"
-                  style={{ background: "rgba(0,0,0,0.5)" }}
+                  className="px-2 py-1.5 rounded-xl backdrop-blur-md text-white text-center"
+                  style={{ background: "rgba(0,0,0,0.55)" }}
                 >
-                  <div className="text-base font-extrabold leading-none">
+                  <div className="text-[11px] font-bold leading-tight">
                     {s.value}
                   </div>
-                  <div className="text-[10px] opacity-75 mt-0.5">{s.label}</div>
+                  <div className="text-[9px] opacity-70 mt-0.5 leading-tight">
+                    {s.label}
+                  </div>
                 </div>
               ))}
             </div>
@@ -220,13 +206,13 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ service, index }) => {
               <div
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-sm font-semibold mb-4"
                 style={{
-                  background: `${service.color}15`,
-                  borderColor: `${service.color}30`,
-                  color: service.color,
+                  background: `${container.color}15`,
+                  borderColor: `${container.color}30`,
+                  color: container.color,
                 }}
               >
                 <Icon className="w-4 h-4" />
-                <span>{service.label}</span>
+                <span>{container.label}</span>
               </div>
               <h2
                 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-3"
@@ -235,28 +221,83 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ service, index }) => {
                   color: "var(--text-primary)",
                 }}
               >
-                {service.tagline}
+                {container.tagline}
               </h2>
               <p
                 className="text-base sm:text-lg leading-relaxed"
                 style={{ color: "var(--text-secondary)" }}
               >
-                {service.description}
+                {container.description}
               </p>
             </motion.div>
 
-            <motion.ul
+            {/* Full spec grid */}
+            <motion.div
               custom={2}
               variants={fadeUp}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-2.5"
+              className="grid grid-cols-2 sm:grid-cols-3 gap-3"
             >
-              {service.highlights.map((h, i) => (
-                <li key={i} className="flex items-center gap-2.5">
+              {container.specs.map((spec, i) => (
+                <div
+                  key={i}
+                  className="rounded-xl p-3 border"
+                  style={{
+                    background: isDark
+                      ? "rgba(30,41,59,0.5)"
+                      : "rgba(248,250,252,0.8)",
+                    borderColor: isDark
+                      ? "rgba(255,255,255,0.07)"
+                      : "rgba(0,0,0,0.06)",
+                  }}
+                >
+                  <div className="flex items-center gap-1.5 mb-1">
+                    {i === 0 ? (
+                      <Ruler
+                        className="w-3.5 h-3.5"
+                        style={{ color: container.color }}
+                      />
+                    ) : i === 4 ? (
+                      <Weight
+                        className="w-3.5 h-3.5"
+                        style={{ color: container.color }}
+                      />
+                    ) : (
+                      <Icon
+                        className="w-3.5 h-3.5"
+                        style={{ color: container.color }}
+                      />
+                    )}
+                    <span
+                      className="text-[10px] uppercase tracking-wide font-semibold"
+                      style={{ color: "var(--text-tertiary)" }}
+                    >
+                      {spec.label}
+                    </span>
+                  </div>
+                  <p
+                    className="text-sm font-bold"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    {spec.value}
+                  </p>
+                </div>
+              ))}
+            </motion.div>
+
+            <motion.ul
+              custom={3}
+              variants={fadeUp}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-2"
+            >
+              {container.highlights.map((h, i) => (
+                <li key={i} className="flex items-center gap-2">
                   <CheckCircle
                     className="w-4 h-4 flex-shrink-0"
-                    style={{ color: service.color }}
+                    style={{ color: container.color }}
                   />
                   <span
                     className="text-sm"
@@ -269,19 +310,19 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ service, index }) => {
             </motion.ul>
 
             <motion.button
-              custom={3}
+              custom={4}
               variants={fadeUp}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
               onClick={openContactModal}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-white"
               style={{
-                background: `linear-gradient(135deg, ${service.color}, #dc2626)`,
+                background: `linear-gradient(135deg, ${container.color}, #1e40af)`,
               }}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
             >
-              Get a Quote
+              Book This Container
               <ArrowRight className="w-4 h-4" />
             </motion.button>
           </div>
@@ -291,7 +332,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ service, index }) => {
   );
 };
 
-const ServicesPage: React.FC = () => {
+const ContainersPage: React.FC = () => {
   const { isDark } = useTheme();
   const { openContactModal } = useModalContext();
   const heroRef = useRef(null);
@@ -323,23 +364,23 @@ const ServicesPage: React.FC = () => {
       >
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <motion.div
-            className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full blur-[130px]"
+            className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full blur-[130px]"
             style={{
               background: isDark
                 ? "rgba(30,64,175,0.15)"
                 : "rgba(30,64,175,0.08)",
             }}
-            animate={{ x: [0, 60, 0], y: [0, -30, 0] }}
+            animate={{ x: [0, -50, 0], y: [0, -30, 0] }}
             transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
-            className="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full blur-[120px]"
+            className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full blur-[120px]"
             style={{
               background: isDark
-                ? "rgba(220,38,38,0.12)"
-                : "rgba(220,38,38,0.07)",
+                ? "rgba(8,145,178,0.12)"
+                : "rgba(8,145,178,0.07)",
             }}
-            animate={{ x: [0, -50, 0], y: [0, 40, 0] }}
+            animate={{ x: [0, 50, 0], y: [0, 40, 0] }}
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>
@@ -364,7 +405,7 @@ const ServicesPage: React.FC = () => {
               }}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-              <span>What We Offer</span>
+              <span>Container Types</span>
             </div>
             <h1
               className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-5 leading-tight"
@@ -374,25 +415,24 @@ const ServicesPage: React.FC = () => {
               }}
             >
               Our{" "}
-              <span className="bg-gradient-to-r from-blue-600 via-red-500 to-blue-700 bg-clip-text text-transparent">
-                Services
+              <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-700 bg-clip-text text-transparent">
+                Containers
               </span>
             </h1>
             <p
               className="text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto mb-8"
               style={{ color: "var(--text-secondary)" }}
             >
-              From urgent express parcels to large international freight,
-              Seventh Air offers end-to-end shipping solutions built around your
-              needs.
+              From standard dry freight to temperature-controlled reefers, we
+              offer the right container for every cargo type and every route.
             </p>
 
-            {/* Quick jump pills */}
+            {/* Quick jump */}
             <div className="flex flex-wrap justify-center gap-2">
-              {services.map((s) => (
+              {containers.map((c) => (
                 <a
-                  key={s.id}
-                  href={`#${s.id}`}
+                  key={c.id}
+                  href={`#${c.id}`}
                   className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border transition-all hover:scale-105"
                   style={{
                     background: isDark
@@ -404,8 +444,8 @@ const ServicesPage: React.FC = () => {
                     color: "var(--text-secondary)",
                   }}
                 >
-                  <s.icon className="w-3.5 h-3.5" />
-                  {s.label}
+                  <c.icon className="w-3.5 h-3.5" />
+                  {c.label}
                 </a>
               ))}
             </div>
@@ -413,39 +453,20 @@ const ServicesPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Service sections */}
-      {services.map((service, index) => (
-        <ServiceSection key={service.id} service={service} index={index} />
+      {containers.map((container, index) => (
+        <ContainerSection
+          key={container.id}
+          container={container}
+          index={index}
+        />
       ))}
 
-      {/* CTA Banner */}
+      {/* CTA */}
       <section
         className="py-16 sm:py-20 relative overflow-hidden"
-        style={{ background: isDark ? "#0f172a" : "#ffffff" }}
+        style={{ background: isDark ? "#1e293b" : "#f8fafc" }}
       >
-        <div
-          className="absolute inset-0"
-          style={{
-            background: "linear-gradient(135deg, #1e40af10 0%, #dc262610 100%)",
-          }}
-        />
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="flex justify-center gap-4 mb-6">
-            {[Package, Clock, Shield, MapPin].map((Icon, i) => (
-              <div
-                key={i}
-                className="w-10 h-10 rounded-xl flex items-center justify-center"
-                style={{
-                  background: "linear-gradient(135deg, #1e40af20, #dc262620)",
-                }}
-              >
-                <Icon
-                  className="w-5 h-5"
-                  style={{ color: "var(--primary-blue-light)" }}
-                />
-              </div>
-            ))}
-          </div>
           <h2
             className="text-3xl sm:text-4xl font-extrabold mb-4"
             style={{
@@ -453,25 +474,25 @@ const ServicesPage: React.FC = () => {
               color: "var(--text-primary)",
             }}
           >
-            Not sure which service fits?
+            Need help choosing?
           </h2>
           <p
             className="text-base sm:text-lg mb-8"
             style={{ color: "var(--text-secondary)" }}
           >
-            Our team will assess your shipment and recommend the best solution —
-            always at a competitive price.
+            Tell us about your cargo and we'll recommend the right container
+            type, size, and route for the best price.
           </p>
           <motion.button
             onClick={openContactModal}
             className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white text-base"
             style={{
-              background: "linear-gradient(135deg, #1e40af 0%, #dc2626 100%)",
+              background: "linear-gradient(135deg, #1e40af 0%, #0891b2 100%)",
             }}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
           >
-            Talk to Our Team
+            Get a Container Quote
             <ArrowRight className="w-5 h-5" />
           </motion.button>
         </div>
@@ -480,4 +501,4 @@ const ServicesPage: React.FC = () => {
   );
 };
 
-export default ServicesPage;
+export default ContainersPage;
